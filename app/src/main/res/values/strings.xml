@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PlayFilter</string>
+
+    <string name="status_unknown">Notification access: checking…</string>
+    <string name="status_granted">Notification access: GRANTED ✓</string>
+    <string name="status_denied">Notification access: NOT granted ✗ — tap below to enable</string>
+
+    <string name="open_access_settings">Open notification access settings</string>
+    <string name="battery_exemption">Disable battery optimisation for PlayFilter</string>
+    <string name="battery_already">Already exempt from battery optimisation</string>
+    <string name="edit_keywords">Edit keyword / channel lists</string>
+
+    <string name="log_only_label">Log-only mode (don\'t actually cancel)</string>
+    <string name="mode_log_only">Mode: LOG-ONLY — notifications are recorded but never cancelled.</string>
+    <string name="mode_enforce">Mode: ENFORCE — matching promo notifications will be cancelled.</string>
+
+    <string name="intercepted_log">Intercepted (last 100)</string>
+    <string name="refresh">Refresh</string>
+    <string name="clear">Clear</string>
+    <string name="log_empty">No notifications intercepted yet.</string>
+
+    <string name="keywords_help">One entry per line, lower-cased automatically. ALLOW is checked first and always wins — a match there is never cancelled. BLOCK keywords match anywhere in the text. Channel IDs match exactly against the notification\'s channelId (populate these once you\'ve seen real IDs in the log).</string>
+    <string name="allow_header">ALLOW keywords (always keep)</string>
+    <string name="block_header">BLOCK keywords (cancel in enforce mode)</string>
+    <string name="channels_header">BLOCK channel IDs (exact match)</string>
+    <string name="reset_defaults">Reset to defaults</string>
+    <string name="reset_loaded">Defaults loaded — not yet saved</string>
+    <string name="save">Save</string>
+    <string name="saved">Saved</string>
+</resources>
