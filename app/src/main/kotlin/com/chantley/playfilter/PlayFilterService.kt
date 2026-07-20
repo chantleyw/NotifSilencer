@@ -6,15 +6,19 @@ import android.service.notification.StatusBarNotification
 import android.util.Log
 
 /**
- * Watches Play Store / Play Services notifications and suppresses the
- * promotional ones while letting anything payment-related through.
+ * Inspects notifications from EVERY app and suppresses promotional /
+ * "recommendations" ones while always letting anything payment-related through.
+ *
+ * Blanket watching is deliberate: the target notifications ("Recommendations",
+ * offers, etc.) can be posted by many different packages, so restricting to a
+ * fixed package list silently missed them. The ALLOW list, checked first, is
+ * what keeps this safe — a payment/billing notification is never cancelled.
  *
  * Decision order (biased toward false negatives — when in doubt, keep):
- *   1. Not from a watched package -> ignore entirely.
- *   2. ALLOW keyword matches      -> KEEP, never cancel (checked first, wins).
- *   3. BLOCK channel id matches   -> KILL.
- *   4. BLOCK keyword matches      -> KILL.
- *   5. Otherwise                  -> KEEP.
+ *   1. ALLOW keyword matches      -> KEEP, never cancel (checked first, wins).
+ *   2. BLOCK channel id matches   -> KILL.
+ *   3. BLOCK keyword matches      -> KILL.
+ *   4. Otherwise                  -> KEEP.
  *
  * In log-only mode (default true) nothing is ever cancelled; the would-be
  * decision is logged and recorded so real notifications can be observed first.
@@ -23,16 +27,16 @@ class PlayFilterService : NotificationListenerService() {
 
     companion object {
         const val TAG = "PlayFilter"
+    }
 
-        val WATCHED_PACKAGES = setOf(
-            "com.android.vending",            // Play Store
-            "com.google.android.gms"          // Play Services / billing
-        )
+    override fun onListenerConnected() {
+        // Keep the process resident so aggressive OEM battery managers (Huawei,
+        // Xiaomi, etc.) can't kill the listener between notifications.
+        KeepAliveService.start(this)
     }
 
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val pkg = sbn.packageName
-        if (pkg !in WATCHED_PACKAGES) return
 
         val extras = sbn.notification?.extras
         val channel = channelId(sbn)
@@ -43,18 +47,18 @@ class PlayFilterService : NotificationListenerService() {
         val blockChannels = Prefs.blockChannels(this)
         val logOnly = Prefs.isLogOnly(this)
 
-        // 2. ALLOW wins outright — never cancel a payment/billing notification.
+        // 1. ALLOW wins outright — never cancel a payment/billing notification.
         val allowHit = allow.firstOrNull { it.isNotEmpty() && haystack.contains(it) }
         if (allowHit != null) {
             record(pkg, channel, haystack, killed = false, reason = "allow:$allowHit", logOnly)
             return
         }
 
-        // 3. Channel-based block (most reliable when Play uses distinct channels).
+        // 2. Channel-based block (most reliable when an app uses distinct channels).
         val channelHit = blockChannels.firstOrNull {
             it.isNotEmpty() && channel.lowercase() == it
         }
-        // 4. Keyword-based block.
+        // 3. Keyword-based block.
         val blockHit = block.firstOrNull { it.isNotEmpty() && haystack.contains(it) }
 
         val reason = when {
@@ -64,7 +68,7 @@ class PlayFilterService : NotificationListenerService() {
         }
 
         if (reason == null) {
-            // 5. No match — keep, biased toward letting it through.
+            // 4. No match — keep, biased toward letting it through.
             record(pkg, channel, haystack, killed = false, reason = "keep:no-match", logOnly)
             return
         }

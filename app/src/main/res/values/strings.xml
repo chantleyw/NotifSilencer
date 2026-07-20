@@ -28,4 +28,9 @@
     <string name="reset_loaded">Defaults loaded — not yet saved</string>
     <string name="save">Save</string>
     <string name="saved">Saved</string>
+
+    <string name="keepalive_channel">PlayFilter running</string>
+    <string name="keepalive_channel_desc">Keeps the notification filter alive in the background.</string>
+    <string name="keepalive_title">PlayFilter is active</string>
+    <string name="keepalive_text">Filtering notifications in the background.</string>
 </resources>

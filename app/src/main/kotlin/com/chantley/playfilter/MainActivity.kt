@@ -1,8 +1,11 @@
 package com.chantley.playfilter
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.app.Activity
 import android.provider.Settings
@@ -53,6 +56,19 @@ class MainActivity : Activity() {
         switchLogOnly.setOnCheckedChangeListener { _, checked ->
             Prefs.setLogOnly(this, checked)
             renderMode()
+        }
+
+        requestPostNotificationsIfNeeded()
+        // Kick the keep-alive service so the listener process stays resident.
+        KeepAliveService.start(this)
+    }
+
+    private fun requestPostNotificationsIfNeeded() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
         }
     }
 
