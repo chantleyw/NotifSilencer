@@ -23,10 +23,10 @@ import android.util.Log
  * In log-only mode (default true) nothing is ever cancelled; the would-be
  * decision is logged and recorded so real notifications can be observed first.
  */
-class PlayFilterService : NotificationListenerService() {
+class NotifSilencerService : NotificationListenerService() {
 
     companion object {
-        const val TAG = "PlayFilter"
+        const val TAG = "NotifSilencer"
     }
 
     override fun onListenerConnected() {

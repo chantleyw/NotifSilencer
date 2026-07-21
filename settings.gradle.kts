@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PlayFilter"
+rootProject.name = "NotifSilencer"
 include(":app")

@@ -97,7 +97,7 @@ You'll see a permanent low-key **"NotifSilencer is active"** notification — th
 Advanced (optional) — inspect via adb:
 
 ```
-adb logcat -s PlayFilter
+adb logcat -s NotifSilencer
 ```
 
 ---
@@ -142,7 +142,7 @@ The keystore and `keystore.properties` are gitignored — **never commit them**.
 
 ```
 app/src/main/kotlin/com/notifsilencer/app/
-    PlayFilterService.kt    NotificationListenerService — the core filter
+    NotifSilencerService.kt    NotificationListenerService — the core filter
     KeepAliveService.kt     foreground service that keeps the filter alive
     BootReceiver.kt         restarts keep-alive after reboot
     MainActivity.kt         status, log-only toggle, in-app log, donate, navigation

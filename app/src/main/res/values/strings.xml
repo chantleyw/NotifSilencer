@@ -7,7 +7,7 @@
     <string name="status_denied">Notification access: NOT granted ✗ — tap below to enable</string>
 
     <string name="open_access_settings">Open notification access settings</string>
-    <string name="battery_exemption">Disable battery optimisation for PlayFilter</string>
+    <string name="battery_exemption">Disable battery optimisation for NotifSilencer</string>
     <string name="battery_already">Already exempt from battery optimisation</string>
     <string name="edit_keywords">Edit keyword / channel lists</string>
     <string name="ignore_apps">Choose apps to ignore</string>
@@ -33,7 +33,7 @@
     <string name="save">Save</string>
     <string name="saved">Saved</string>
 
-    <string name="keepalive_channel">PlayFilter running</string>
+    <string name="keepalive_channel">NotifSilencer running</string>
     <string name="keepalive_channel_desc">Keeps the notification filter alive in the background.</string>
     <string name="keepalive_title">NotifSilencer is active</string>
     <string name="keepalive_text">Filtering notifications in the background.</string>

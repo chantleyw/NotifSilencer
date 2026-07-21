@@ -11,7 +11,7 @@ import org.json.JSONObject
  */
 object LogStore {
 
-    private const val FILE = "playfilter_log"
+    private const val FILE = "notifsilencer_log"
     private const val KEY = "entries"
     const val MAX = 100
 

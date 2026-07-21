@@ -14,7 +14,7 @@ import android.os.IBinder
  * resident. Notification listeners get killed aggressively by some OEMs
  * (Huawei/Honor especially) when the process is idle in the background; a
  * foreground service with an ongoing notification makes the process much harder
- * to reclaim, so PlayFilterService stays connected between notifications.
+ * to reclaim, so NotifSilencerService stays connected between notifications.
  *
  * The ongoing notification is posted on a MIN-importance channel so it stays
  * silent and collapsed at the bottom of the shade.
@@ -39,7 +39,7 @@ class KeepAliveService : Service() {
             .build()
 
     companion object {
-        const val CHANNEL_ID = "playfilter_keepalive"
+        const val CHANNEL_ID = "notifsilencer_keepalive"
         const val NOTIF_ID = 1001
 
         /** Safe to call repeatedly; starting an already-running service is a no-op restart. */

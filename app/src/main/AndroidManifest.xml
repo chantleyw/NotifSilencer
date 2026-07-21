@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PlayFilter">
+        android:theme="@style/Theme.NotifSilencer">
 
         <activity
             android:name=".MainActivity"
@@ -44,7 +44,7 @@
             android:label="@string/ignore_apps" />
 
         <service
-            android:name=".PlayFilterService"
+            android:name=".NotifSilencerService"
             android:exported="false"
             android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">

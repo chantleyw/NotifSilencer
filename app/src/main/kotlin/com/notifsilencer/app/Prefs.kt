@@ -12,7 +12,7 @@ import android.content.SharedPreferences
  */
 object Prefs {
 
-    private const val FILE = "playfilter_prefs"
+    private const val FILE = "notifsilencer_prefs"
 
     private const val KEY_LOG_ONLY = "log_only"
     private const val KEY_ALLOW = "allow_list"
