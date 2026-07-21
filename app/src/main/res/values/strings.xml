@@ -10,6 +10,9 @@
     <string name="battery_exemption">Disable battery optimisation for PlayFilter</string>
     <string name="battery_already">Already exempt from battery optimisation</string>
     <string name="edit_keywords">Edit keyword / channel lists</string>
+    <string name="ignore_apps">Choose apps to ignore</string>
+    <string name="ignore_apps_help">Turn an app ON to ignore it completely — its notifications are never logged, matched, or cancelled. WhatsApp is ignored by default.</string>
+    <string name="loading_apps">Loading installed apps…</string>
 
     <string name="log_only_label">Log-only mode (don\'t actually cancel)</string>
     <string name="mode_log_only">Mode: LOG-ONLY — notifications are recorded but never cancelled.</string>

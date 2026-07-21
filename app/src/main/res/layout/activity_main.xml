@@ -64,6 +64,12 @@
             android:text="@string/battery_exemption" />
 
         <Button
+            android:id="@+id/btnIgnoreApps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ignore_apps" />
+
+        <Button
             android:id="@+id/btnKeywords"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

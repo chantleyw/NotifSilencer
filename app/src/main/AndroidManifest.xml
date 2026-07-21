@@ -12,6 +12,10 @@
     <!-- Restart the keep-alive service after reboot. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- List installed apps for the "choose apps to ignore" picker. Play Store
+         restricts this permission, but this app is sideloaded, not on Play. -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -33,6 +37,11 @@
             android:name=".KeywordEditActivity"
             android:exported="false"
             android:label="@string/edit_keywords" />
+
+        <activity
+            android:name=".IgnoreAppsActivity"
+            android:exported="false"
+            android:label="@string/ignore_apps" />
 
         <service
             android:name=".PlayFilterService"

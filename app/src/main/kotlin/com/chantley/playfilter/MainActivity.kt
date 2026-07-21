@@ -45,6 +45,10 @@ class MainActivity : Activity() {
 
         findViewById<Button>(R.id.btnBattery).setOnClickListener { requestBatteryExemption() }
 
+        findViewById<Button>(R.id.btnIgnoreApps).setOnClickListener {
+            startActivity(Intent(this, IgnoreAppsActivity::class.java))
+        }
+
         findViewById<Button>(R.id.btnKeywords).setOnClickListener {
             startActivity(Intent(this, KeywordEditActivity::class.java))
         }
