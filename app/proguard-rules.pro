@@ -1,2 +1,2 @@
 # Keep the listener service entry point.
--keep class com.chantley.playfilter.PlayFilterService { *; }
+-keep class com.notifsilencer.app.PlayFilterService { *; }

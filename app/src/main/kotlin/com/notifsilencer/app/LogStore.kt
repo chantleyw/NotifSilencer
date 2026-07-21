@@ -1,4 +1,4 @@
-package com.chantley.playfilter
+package com.notifsilencer.app
 
 import android.content.Context
 import org.json.JSONArray

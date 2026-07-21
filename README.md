@@ -122,7 +122,7 @@ If Gradle can't find your SDK, add `local.properties`:
 sdk.dir=C:\\Users\\YOU\\AppData\\Local\\Android\\Sdk
 ```
 
-**Stack:** Kotlin · Gradle KTS · minSdk 26 · targetSdk 34 · no Compose · no third-party libraries. Package/applicationId `com.chantley.playfilter` (kept for update compatibility; the display name is NotifSilencer).
+**Stack:** Kotlin · Gradle KTS · minSdk 26 · targetSdk 34 · no Compose · no third-party libraries. Package/applicationId `com.notifsilencer.app`.
 
 ---
 
@@ -141,7 +141,7 @@ The keystore and `keystore.properties` are gitignored — **never commit them**.
 ## Project layout
 
 ```
-app/src/main/kotlin/com/chantley/playfilter/
+app/src/main/kotlin/com/notifsilencer/app/
     PlayFilterService.kt    NotificationListenerService — the core filter
     KeepAliveService.kt     foreground service that keeps the filter alive
     BootReceiver.kt         restarts keep-alive after reboot

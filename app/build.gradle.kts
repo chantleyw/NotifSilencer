@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.chantley.playfilter"
+    namespace = "com.notifsilencer.app"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.chantley.playfilter"
+        applicationId = "com.notifsilencer.app"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

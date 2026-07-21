@@ -1,4 +1,4 @@
-package com.chantley.playfilter
+package com.notifsilencer.app
 
 import android.app.Activity
 import android.os.Bundle
