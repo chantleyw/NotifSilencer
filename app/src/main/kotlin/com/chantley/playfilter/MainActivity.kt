@@ -19,6 +19,11 @@ import java.util.Locale
 
 class MainActivity : Activity() {
 
+    companion object {
+        // TODO: replace YOURNAME with your real PayPal.me handle before publishing.
+        private const val PAYPAL_URL = "https://paypal.me/YOURNAME"
+    }
+
     private lateinit var statusLine: TextView
     private lateinit var modeHint: TextView
     private lateinit var logView: TextView
@@ -45,6 +50,8 @@ class MainActivity : Activity() {
             startActivity(Intent(this, KeywordEditActivity::class.java))
         }
 
+        findViewById<Button>(R.id.btnSupport).setOnClickListener { openDonationPage() }
+
         findViewById<Button>(R.id.btnRefresh).setOnClickListener { renderLog() }
 
         findViewById<Button>(R.id.btnClear).setOnClickListener {
@@ -61,6 +68,14 @@ class MainActivity : Activity() {
         requestPostNotificationsIfNeeded()
         // Kick the keep-alive service so the listener process stays resident.
         KeepAliveService.start(this)
+    }
+
+    private fun openDonationPage() {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PAYPAL_URL)))
+        } catch (_: Exception) {
+            Toast.makeText(this, R.string.support_unavailable, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun requestPostNotificationsIfNeeded() {

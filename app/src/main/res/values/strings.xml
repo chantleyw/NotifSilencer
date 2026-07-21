@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PlayFilter</string>
+    <string name="app_name">NotifSilencer</string>
 
     <string name="status_unknown">Notification access: checking…</string>
     <string name="status_granted">Notification access: GRANTED ✓</string>
@@ -31,6 +31,9 @@
 
     <string name="keepalive_channel">PlayFilter running</string>
     <string name="keepalive_channel_desc">Keeps the notification filter alive in the background.</string>
-    <string name="keepalive_title">PlayFilter is active</string>
+    <string name="keepalive_title">NotifSilencer is active</string>
     <string name="keepalive_text">Filtering notifications in the background.</string>
+
+    <string name="support_dev">Support development ❤️ (PayPal)</string>
+    <string name="support_unavailable">No browser available to open the donation page.</string>
 </resources>

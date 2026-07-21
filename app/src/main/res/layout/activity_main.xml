@@ -69,6 +69,12 @@
             android:layout_height="wrap_content"
             android:text="@string/edit_keywords" />
 
+        <Button
+            android:id="@+id/btnSupport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/support_dev" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
