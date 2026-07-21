@@ -11,3 +11,9 @@
 
 # Local Claude Code settings (machine-specific)
 /.claude/settings.local.json
+
+# Release signing — NEVER commit these (leaking them lets others impersonate the app)
+*.jks
+*.keystore
+keystore.properties
+/key.properties
