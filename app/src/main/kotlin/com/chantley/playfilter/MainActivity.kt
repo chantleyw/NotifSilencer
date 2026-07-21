@@ -20,8 +20,7 @@ import java.util.Locale
 class MainActivity : Activity() {
 
     companion object {
-        // TODO: replace YOURNAME with your real PayPal.me handle before publishing.
-        private const val PAYPAL_URL = "https://paypal.me/YOURNAME"
+        private const val PAYPAL_URL = "https://paypal.me/moersebene"
     }
 
     private lateinit var statusLine: TextView
