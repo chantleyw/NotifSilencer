@@ -42,24 +42,30 @@ class PlayFilterService : NotificationListenerService() {
         val channel = channelId(sbn)
         val haystack = buildHaystack(extras)
 
+        // Keyword matching runs against the visible text AND the channel id: some
+        // OEM push agents (e.g. Honor's, channel "...RECOMMEND...") put the only
+        // usable signal in the channel id rather than the title/body text.
+        val matchText = (haystack + " " + channel).lowercase()
+
         val allow = Prefs.allowList(this)
         val block = Prefs.blockList(this)
         val blockChannels = Prefs.blockChannels(this)
         val logOnly = Prefs.isLogOnly(this)
 
         // 1. ALLOW wins outright — never cancel a payment/billing notification.
-        val allowHit = allow.firstOrNull { it.isNotEmpty() && haystack.contains(it) }
+        val allowHit = allow.firstOrNull { it.isNotEmpty() && matchText.contains(it) }
         if (allowHit != null) {
             record(pkg, channel, haystack, killed = false, reason = "allow:$allowHit", logOnly)
             return
         }
 
-        // 2. Channel-based block (most reliable when an app uses distinct channels).
+        // 2. Channel-based block. Substring match, because channel ids often carry
+        // a variable per-notification suffix (e.g. "...RECOMMEND.03pnc").
         val channelHit = blockChannels.firstOrNull {
-            it.isNotEmpty() && channel.lowercase() == it
+            it.isNotEmpty() && channel.lowercase().contains(it)
         }
-        // 3. Keyword-based block.
-        val blockHit = block.firstOrNull { it.isNotEmpty() && haystack.contains(it) }
+        // 3. Keyword-based block (text + channel id).
+        val blockHit = block.firstOrNull { it.isNotEmpty() && matchText.contains(it) }
 
         val reason = when {
             channelHit != null -> "block-channel:$channelHit"
