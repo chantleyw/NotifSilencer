@@ -67,6 +67,23 @@
             android:fontFamily="monospace"
             android:importantForAutofill="no" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:text="@string/ignore_header"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/ignoreEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:minLines="3"
+            android:fontFamily="monospace"
+            android:importantForAutofill="no" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

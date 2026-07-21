@@ -38,6 +38,11 @@ class PlayFilterService : NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification) {
         val pkg = sbn.packageName
 
+        // Ignored packages are skipped entirely — never logged, matched, or cancelled.
+        // Prefix match so "com.whatsapp" also covers "com.whatsapp.w4b".
+        val ignore = Prefs.ignorePackages(this)
+        if (ignore.any { it.isNotEmpty() && pkg.startsWith(it) }) return
+
         val extras = sbn.notification?.extras
         val channel = channelId(sbn)
         val haystack = buildHaystack(extras)

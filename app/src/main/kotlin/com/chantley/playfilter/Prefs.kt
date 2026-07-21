@@ -18,6 +18,7 @@ object Prefs {
     private const val KEY_ALLOW = "allow_list"
     private const val KEY_BLOCK = "block_list"
     private const val KEY_CHANNELS = "block_channels"
+    private const val KEY_IGNORE = "ignore_packages"
 
     // Bias toward false negatives: if a payment-ish word appears, we never cancel.
     val DEFAULT_ALLOW = listOf(
@@ -37,6 +38,12 @@ object Prefs {
     // Empty by default — populate once you have observed real Play Store channel IDs
     // from log-only mode. Channel match is exact (case-insensitive).
     val DEFAULT_CHANNELS = emptyList<String>()
+
+    // Packages skipped entirely: never logged, never matched, never cancelled.
+    // Matched by prefix, so "com.whatsapp" also covers "com.whatsapp.w4b" (Business).
+    val DEFAULT_IGNORE_PACKAGES = listOf(
+        "com.whatsapp"
+    )
 
     private fun sp(ctx: Context): SharedPreferences =
         ctx.getSharedPreferences(FILE, Context.MODE_PRIVATE)
@@ -59,6 +66,10 @@ object Prefs {
     fun setBlockList(ctx: Context, items: List<String>) = putList(ctx, KEY_BLOCK, items)
 
     fun setBlockChannels(ctx: Context, items: List<String>) = putList(ctx, KEY_CHANNELS, items)
+
+    fun ignorePackages(ctx: Context): List<String> = getList(ctx, KEY_IGNORE, DEFAULT_IGNORE_PACKAGES)
+
+    fun setIgnorePackages(ctx: Context, items: List<String>) = putList(ctx, KEY_IGNORE, items)
 
     private fun getList(ctx: Context, key: String, default: List<String>): List<String> {
         val raw = sp(ctx).getString(key, null) ?: return default

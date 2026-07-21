@@ -23,7 +23,8 @@
     <string name="keywords_help">One entry per line, lower-cased automatically. ALLOW is checked first and always wins — a match there is never cancelled. BLOCK keywords match anywhere in the text. Channel IDs match exactly against the notification\'s channelId (populate these once you\'ve seen real IDs in the log).</string>
     <string name="allow_header">ALLOW keywords (always keep)</string>
     <string name="block_header">BLOCK keywords (cancel in enforce mode)</string>
-    <string name="channels_header">BLOCK channel IDs (exact match)</string>
+    <string name="channels_header">BLOCK channel IDs (substring match)</string>
+    <string name="ignore_header">IGNORE packages (never logged or touched — one package prefix per line, e.g. com.whatsapp)</string>
     <string name="reset_defaults">Reset to defaults</string>
     <string name="reset_loaded">Defaults loaded — not yet saved</string>
     <string name="save">Save</string>

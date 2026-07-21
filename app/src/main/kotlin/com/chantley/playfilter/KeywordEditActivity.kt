@@ -15,6 +15,7 @@ class KeywordEditActivity : Activity() {
     private lateinit var allowEdit: EditText
     private lateinit var blockEdit: EditText
     private lateinit var channelsEdit: EditText
+    private lateinit var ignoreEdit: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,31 +24,45 @@ class KeywordEditActivity : Activity() {
         allowEdit = findViewById(R.id.allowEdit)
         blockEdit = findViewById(R.id.blockEdit)
         channelsEdit = findViewById(R.id.channelsEdit)
+        ignoreEdit = findViewById(R.id.ignoreEdit)
 
         load(
             Prefs.allowList(this),
             Prefs.blockList(this),
-            Prefs.blockChannels(this)
+            Prefs.blockChannels(this),
+            Prefs.ignorePackages(this)
         )
 
         findViewById<Button>(R.id.btnSave).setOnClickListener { save() }
 
         findViewById<Button>(R.id.btnReset).setOnClickListener {
-            load(Prefs.DEFAULT_ALLOW, Prefs.DEFAULT_BLOCK, Prefs.DEFAULT_CHANNELS)
+            load(
+                Prefs.DEFAULT_ALLOW,
+                Prefs.DEFAULT_BLOCK,
+                Prefs.DEFAULT_CHANNELS,
+                Prefs.DEFAULT_IGNORE_PACKAGES
+            )
             Toast.makeText(this, R.string.reset_loaded, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun load(allow: List<String>, block: List<String>, channels: List<String>) {
+    private fun load(
+        allow: List<String>,
+        block: List<String>,
+        channels: List<String>,
+        ignore: List<String>
+    ) {
         allowEdit.setText(allow.joinToString("\n"))
         blockEdit.setText(block.joinToString("\n"))
         channelsEdit.setText(channels.joinToString("\n"))
+        ignoreEdit.setText(ignore.joinToString("\n"))
     }
 
     private fun save() {
         Prefs.setAllowList(this, toLines(allowEdit))
         Prefs.setBlockList(this, toLines(blockEdit))
         Prefs.setBlockChannels(this, toLines(channelsEdit))
+        Prefs.setIgnorePackages(this, toLines(ignoreEdit))
         Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show()
         finish()
     }
