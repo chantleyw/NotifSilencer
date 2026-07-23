@@ -43,6 +43,11 @@
             android:exported="false"
             android:label="@string/ignore_apps" />
 
+        <activity
+            android:name=".BlockLogActivity"
+            android:exported="false"
+            android:label="@string/blocked_history" />
+
         <service
             android:name=".NotifSilencerService"
             android:exported="false"

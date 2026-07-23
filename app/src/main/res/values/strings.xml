@@ -18,6 +18,8 @@
     <string name="mode_log_only">Mode: LOG-ONLY — notifications are recorded but never cancelled.</string>
     <string name="mode_enforce">Mode: ENFORCE — matching promo notifications will be cancelled.</string>
 
+    <string name="blocked_history">Blocked history</string>
+    <string name="blocked_history_help">Every notification the app blocked (or would block in log-only mode). Kept separately and survives clearing the main log, so you can verify the app is working. Keeps the last 500.</string>
     <string name="intercepted_log">Intercepted (last 100)</string>
     <string name="refresh">Refresh</string>
     <string name="clear">Clear</string>

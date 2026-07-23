@@ -85,9 +85,9 @@ class NotifSilencerService : NotificationListenerService() {
         }
 
         if (logOnly) {
-            record(pkg, channel, haystack, killed = false, reason = "WOULD-KILL $reason", logOnly)
+            record(pkg, channel, haystack, killed = false, reason = "WOULD-KILL $reason", logOnly, blocked = true)
         } else {
-            record(pkg, channel, haystack, killed = true, reason = reason, logOnly)
+            record(pkg, channel, haystack, killed = true, reason = reason, logOnly, blocked = true)
             cancelNotification(sbn.key)
         }
     }
@@ -112,23 +112,24 @@ class NotifSilencerService : NotificationListenerService() {
         text: String,
         killed: Boolean,
         reason: String,
-        logOnly: Boolean
+        logOnly: Boolean,
+        blocked: Boolean = false
     ) {
         val mode = if (logOnly) "LOG-ONLY" else "ENFORCE"
         Log.i(
             TAG,
             "[$mode] pkg=$pkg channel=\"$channel\" killed=$killed reason=$reason text=\"$text\""
         )
-        LogStore.add(
-            this,
-            LogStore.Entry(
-                time = System.currentTimeMillis(),
-                pkg = pkg,
-                channel = channel,
-                text = text,
-                killed = killed,
-                reason = reason
-            )
+        val entry = LogStore.Entry(
+            time = System.currentTimeMillis(),
+            pkg = pkg,
+            channel = channel,
+            text = text,
+            killed = killed,
+            reason = reason
         )
+        LogStore.add(this, entry)
+        // Block decisions also go to the persistent, separately-cleared history.
+        if (blocked) BlockLog.add(this, entry)
     }
 }

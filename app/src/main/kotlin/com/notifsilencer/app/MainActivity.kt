@@ -4,23 +4,15 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Typeface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.app.Activity
 import android.provider.Settings
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import android.widget.Button
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class MainActivity : Activity() {
 
@@ -32,8 +24,6 @@ class MainActivity : Activity() {
     private lateinit var modeHint: TextView
     private lateinit var logView: TextView
     private lateinit var switchLogOnly: Switch
-
-    private val timeFmt = SimpleDateFormat("MM-dd HH:mm:ss", Locale.US)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +46,10 @@ class MainActivity : Activity() {
 
         findViewById<Button>(R.id.btnKeywords).setOnClickListener {
             startActivity(Intent(this, KeywordEditActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnBlockHistory).setOnClickListener {
+            startActivity(Intent(this, BlockLogActivity::class.java))
         }
 
         findViewById<Button>(R.id.btnSupport).setOnClickListener { openDonationPage() }
@@ -125,24 +119,7 @@ class MainActivity : Activity() {
             logView.text = getString(R.string.log_empty)
             return
         }
-        val green = 0xFF2E7D32.toInt()
-        val red = 0xFFC62828.toInt()
-        val sb = SpannableStringBuilder()
-        for (e in entries) {
-            val verdict = if (e.killed) "KILLED" else "KEPT"
-            sb.append(timeFmt.format(Date(e.time))).append("  ")
-            // Colour + bold only the verdict token.
-            val start = sb.length
-            sb.append(verdict)
-            val colour = if (e.killed) red else green
-            sb.setSpan(ForegroundColorSpan(colour), start, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            sb.setSpan(StyleSpan(Typeface.BOLD), start, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-            sb.append("  ").append(e.reason).append('\n')
-                .append("  pkg=").append(e.pkg).append('\n')
-                .append("  ch=").append(if (e.channel.isEmpty()) "(none)" else e.channel).append('\n')
-                .append("  ").append(e.text.ifEmpty { "(no text)" }).append("\n\n")
-        }
-        logView.text = sb
+        logView.text = LogRender.format(entries)
     }
 
     /** Reads enabled_notification_listeners and looks for our component. */

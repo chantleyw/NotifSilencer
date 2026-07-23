@@ -76,6 +76,12 @@
             android:text="@string/edit_keywords" />
 
         <Button
+            android:id="@+id/btnBlockHistory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/blocked_history" />
+
+        <Button
             android:id="@+id/btnSupport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
