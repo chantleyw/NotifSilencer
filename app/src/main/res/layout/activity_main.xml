@@ -64,12 +64,6 @@
             android:text="@string/battery_exemption" />
 
         <Button
-            android:id="@+id/btnLog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/intercepted_log" />
-
-        <Button
             android:id="@+id/btnBlockHistory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,26 +86,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/edit_keywords" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnExport"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/export_settings" />
-
-            <Button
-                android:id="@+id/btnImport"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="@string/import_settings" />
-        </LinearLayout>
 
         <Button
             android:id="@+id/btnSupport"

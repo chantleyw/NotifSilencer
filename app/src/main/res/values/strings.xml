@@ -68,6 +68,10 @@
     <string name="settings_imported">Settings imported</string>
     <string name="settings_error">Couldn\'t complete — check the file and try again</string>
 
+    <string name="menu_exit">Exit / kill app</string>
+    <string name="exit_confirm">This closes the app and stops the background service. Android may restart the notification listener automatically — to stop filtering for good, revoke notification access.</string>
+    <string name="exit_now">Kill app</string>
+
     <string name="support_dev">Support development ❤️ (Ko-fi)</string>
     <string name="support_unavailable">No browser available to open the donation page.</string>
 </resources>

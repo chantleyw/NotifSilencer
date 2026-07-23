@@ -41,10 +41,6 @@ class MainActivity : Activity() {
 
         findViewById<Button>(R.id.btnBattery).setOnClickListener { requestBatteryExemption() }
 
-        findViewById<Button>(R.id.btnLog).setOnClickListener {
-            startActivity(Intent(this, LogActivity::class.java))
-        }
-
         findViewById<Button>(R.id.btnBlockHistory).setOnClickListener {
             startActivity(Intent(this, BlockLogActivity::class.java))
         }
@@ -61,9 +57,6 @@ class MainActivity : Activity() {
             startActivity(Intent(this, KeywordEditActivity::class.java))
         }
 
-        findViewById<Button>(R.id.btnExport).setOnClickListener { exportSettings() }
-        findViewById<Button>(R.id.btnImport).setOnClickListener { importSettings() }
-
         findViewById<Button>(R.id.btnSupport).setOnClickListener { openDonationPage() }
 
         switchLogOnly.isChecked = Prefs.isLogOnly(this)
@@ -75,6 +68,47 @@ class MainActivity : Activity() {
         requestPostNotificationsIfNeeded()
         // Kick the keep-alive service so the listener process stays resident.
         KeepAliveService.start(this)
+    }
+
+    override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_log -> {
+                startActivity(Intent(this, LogActivity::class.java)); true
+            }
+            R.id.menu_export -> {
+                exportSettings(); true
+            }
+            R.id.menu_import -> {
+                importSettings(); true
+            }
+            R.id.menu_exit -> {
+                confirmKill(); true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun confirmKill() {
+        android.app.AlertDialog.Builder(this)
+            .setTitle(R.string.menu_exit)
+            .setMessage(R.string.exit_confirm)
+            .setPositiveButton(R.string.exit_now) { _, _ -> killApp() }
+            .setNegativeButton(R.string.action_close, null)
+            .show()
+    }
+
+    private fun killApp() {
+        // Drop the keep-alive foreground service (removes its notification), close
+        // the UI, and kill the process. Note: Android may re-bind the notification
+        // listener afterwards — to stop filtering for good, revoke notification access.
+        stopService(Intent(this, KeepAliveService::class.java))
+        finishAndRemoveTask()
+        android.os.Process.killProcess(android.os.Process.myPid())
     }
 
     private fun openDonationPage() {
