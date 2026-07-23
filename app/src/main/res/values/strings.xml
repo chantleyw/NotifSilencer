@@ -38,6 +38,6 @@
     <string name="keepalive_title">NotifSilencer is active</string>
     <string name="keepalive_text">Filtering notifications in the background.</string>
 
-    <string name="support_dev">Support development ❤️ (PayPal)</string>
+    <string name="support_dev">Support development ❤️ (Ko-fi)</string>
     <string name="support_unavailable">No browser available to open the donation page.</string>
 </resources>

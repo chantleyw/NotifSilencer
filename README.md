@@ -31,7 +31,7 @@ This app reads your notifications, so you should be able to trust it. It's built
 - **Works fully offline** — put the phone in airplane mode and it still filters.
 - **WhatsApp is ignored by default**, and you can exclude any other app with one tap so it's never even inspected.
 
-The only URL in the entire app is the PayPal donation link, which — *only if you tap the donate button* — opens in your **browser**. The app itself makes no network connections.
+The only URL in the entire app is the Ko-fi donation link, which — *only if you tap the donate button* — opens in your **browser**. The app itself makes no network connections.
 
 Verify it yourself: decompile the APK and confirm there's no `INTERNET` permission, or just run it in airplane mode.
 
@@ -159,7 +159,7 @@ app/src/main/res/…          layouts, strings, theme, adaptive launcher icon
 
 NotifSilencer is free and open source. If it saved your sanity, you can chip in:
 
-☕ **[paypal.me/moersebene](https://paypal.me/moersebene)**
+☕ **[ko-fi.com/moersebene](https://ko-fi.com/moersebene)**
 
 ---
 

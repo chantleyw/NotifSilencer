@@ -20,7 +20,7 @@ import java.util.Locale
 class MainActivity : Activity() {
 
     companion object {
-        private const val PAYPAL_URL = "https://paypal.me/moersebene"
+        private const val DONATION_URL = "https://ko-fi.com/moersebene"
     }
 
     private lateinit var statusLine: TextView
@@ -75,7 +75,7 @@ class MainActivity : Activity() {
 
     private fun openDonationPage() {
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(PAYPAL_URL)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DONATION_URL)))
         } catch (_: Exception) {
             Toast.makeText(this, R.string.support_unavailable, Toast.LENGTH_SHORT).show()
         }
