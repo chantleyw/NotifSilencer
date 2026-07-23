@@ -58,16 +58,10 @@
             android:paddingBottom="8dp" />
 
         <Button
-            android:id="@+id/btnBattery"
+            android:id="@+id/btnLog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/battery_exemption" />
-
-        <Button
-            android:id="@+id/btnBlockHistory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/blocked_history" />
+            android:text="@string/intercepted_log" />
 
         <Button
             android:id="@+id/btnManageBlock"

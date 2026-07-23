@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_log"
-        android:title="@string/intercepted_log"
+        android:id="@+id/menu_battery"
+        android:title="@string/battery_disable"
+        android:showAsAction="never" />
+    <item
+        android:id="@+id/menu_blockhistory"
+        android:title="@string/blocked_history"
         android:showAsAction="never" />
     <item
         android:id="@+id/menu_export"

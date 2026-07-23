@@ -39,10 +39,8 @@ class MainActivity : Activity() {
             startActivity(Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS))
         }
 
-        findViewById<Button>(R.id.btnBattery).setOnClickListener { requestBatteryExemption() }
-
-        findViewById<Button>(R.id.btnBlockHistory).setOnClickListener {
-            startActivity(Intent(this, BlockLogActivity::class.java))
+        findViewById<Button>(R.id.btnLog).setOnClickListener {
+            startActivity(Intent(this, LogActivity::class.java))
         }
 
         findViewById<Button>(R.id.btnManageBlock).setOnClickListener {
@@ -77,8 +75,11 @@ class MainActivity : Activity() {
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_log -> {
-                startActivity(Intent(this, LogActivity::class.java)); true
+            R.id.menu_battery -> {
+                requestBatteryExemption(); true
+            }
+            R.id.menu_blockhistory -> {
+                startActivity(Intent(this, BlockLogActivity::class.java)); true
             }
             R.id.menu_export -> {
                 exportSettings(); true

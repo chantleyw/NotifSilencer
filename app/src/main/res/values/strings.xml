@@ -8,6 +8,7 @@
 
     <string name="open_access_settings">Open notification access settings</string>
     <string name="battery_exemption">Disable battery optimisation for NotifSilencer</string>
+    <string name="battery_disable">Disable battery optimization</string>
     <string name="battery_already">Already exempt from battery optimisation</string>
     <string name="edit_keywords">Edit keyword / channel lists</string>
     <string name="ignore_apps">Choose apps to ignore</string>

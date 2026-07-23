@@ -2,58 +2,73 @@ package com.notifsilencer.app
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 
 /**
  * The "tap a log entry to act on it" dialog. Shows the notification's details
- * and offers one-tap actions to add it to the block or ignore lists, so the
- * user never has to type a package name or channel id by hand.
+ * and offers explicit one-tap actions — block its channel, block its app, or
+ * ignore its app — each button labelled with the exact value it will add, so
+ * the user chooses precisely what goes on the list without typing.
+ *
+ * Uses a custom view (not setMessage + setItems, which can't coexist).
  */
 object BlockActions {
 
     fun show(activity: Activity, entry: LogStore.Entry, onChanged: () -> Unit) {
-        val labels = ArrayList<String>()
-        val actions = ArrayList<() -> Unit>()
+        val view = activity.layoutInflater.inflate(R.layout.dialog_block_actions, null)
+        view.findViewById<TextView>(R.id.dlgDetails).text = LogRender.formatEntry(entry)
 
-        if (entry.channel.isNotEmpty()) {
-            labels.add(activity.getString(R.string.action_block_channel))
-            actions.add {
+        val dialog = AlertDialog.Builder(activity)
+            .setTitle(R.string.action_title)
+            .setView(view)
+            .setNegativeButton(R.string.action_close, null)
+            .create()
+
+        val channelBtn = view.findViewById<Button>(R.id.dlgBlockChannel)
+        if (entry.channel.isEmpty()) {
+            channelBtn.visibility = View.GONE
+        } else {
+            channelBtn.text = activity.getString(R.string.action_block_channel) + "\n" + entry.channel
+            channelBtn.setOnClickListener {
                 val added = Prefs.addTo(
                     activity, Prefs.blockChannels(activity), entry.channel, Prefs::setBlockChannels
                 )
-                toast(activity, added, R.string.action_added_channel, R.string.action_already)
-                onChanged()
+                toast(activity, added, R.string.action_added_channel)
+                onChanged(); dialog.dismiss()
             }
         }
 
-        labels.add(activity.getString(R.string.action_block_app))
-        actions.add {
+        val appBtn = view.findViewById<Button>(R.id.dlgBlockApp)
+        appBtn.text = activity.getString(R.string.action_block_app) + "\n" + entry.pkg
+        appBtn.setOnClickListener {
             val added = Prefs.addTo(
                 activity, Prefs.blockPackages(activity), entry.pkg, Prefs::setBlockPackages
             )
-            toast(activity, added, R.string.action_added_app, R.string.action_already)
-            onChanged()
+            toast(activity, added, R.string.action_added_app)
+            onChanged(); dialog.dismiss()
         }
 
-        labels.add(activity.getString(R.string.action_ignore_app))
-        actions.add {
+        val ignoreBtn = view.findViewById<Button>(R.id.dlgIgnoreApp)
+        ignoreBtn.text = activity.getString(R.string.action_ignore_app) + "\n" + entry.pkg
+        ignoreBtn.setOnClickListener {
             val added = Prefs.addTo(
                 activity, Prefs.ignorePackages(activity), entry.pkg, Prefs::setIgnorePackages
             )
-            toast(activity, added, R.string.action_added_ignore, R.string.action_already)
-            onChanged()
+            toast(activity, added, R.string.action_added_ignore)
+            onChanged(); dialog.dismiss()
         }
 
-        val details = LogRender.formatEntry(entry)
-        AlertDialog.Builder(activity)
-            .setTitle(R.string.action_title)
-            .setMessage(details)
-            .setItems(labels.toTypedArray()) { _, which -> actions[which]() }
-            .setNegativeButton(R.string.action_close, null)
-            .show()
+        dialog.show()
     }
 
-    private fun toast(activity: Activity, added: Boolean, addedRes: Int, alreadyRes: Int) {
-        Toast.makeText(activity, if (added) addedRes else alreadyRes, Toast.LENGTH_SHORT).show()
+    private fun toast(activity: Activity, added: Boolean, addedRes: Int) {
+        Toast.makeText(
+            activity,
+            if (added) addedRes else R.string.action_already,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 }
