@@ -18,6 +18,9 @@ class MainActivity : Activity() {
 
     companion object {
         private const val DONATION_URL = "https://ko-fi.com/moersebene"
+        private const val REQ_EXPORT = 101
+        private const val REQ_IMPORT = 102
+        private const val EXPORT_FILENAME = "notifsilencer-settings.json"
     }
 
     private lateinit var statusLine: TextView
@@ -52,6 +55,9 @@ class MainActivity : Activity() {
             startActivity(Intent(this, BlockLogActivity::class.java))
         }
 
+        findViewById<Button>(R.id.btnExport).setOnClickListener { exportSettings() }
+        findViewById<Button>(R.id.btnImport).setOnClickListener { importSettings() }
+
         findViewById<Button>(R.id.btnSupport).setOnClickListener { openDonationPage() }
 
         findViewById<Button>(R.id.btnRefresh).setOnClickListener { renderLog() }
@@ -77,6 +83,65 @@ class MainActivity : Activity() {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(DONATION_URL)))
         } catch (_: Exception) {
             Toast.makeText(this, R.string.support_unavailable, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun exportSettings() {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/json"
+            putExtra(Intent.EXTRA_TITLE, EXPORT_FILENAME)
+        }
+        try {
+            startActivityForResult(intent, REQ_EXPORT)
+        } catch (_: Exception) {
+            Toast.makeText(this, R.string.settings_error, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun importSettings() {
+        // Accept any type: some file managers don't tag .json as application/json.
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+        }
+        try {
+            startActivityForResult(intent, REQ_IMPORT)
+        } catch (_: Exception) {
+            Toast.makeText(this, R.string.settings_error, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != RESULT_OK) return
+        val uri = data?.data ?: return
+        when (requestCode) {
+            REQ_EXPORT -> {
+                try {
+                    contentResolver.openOutputStream(uri)?.use {
+                        it.write(Prefs.exportJson(this).toByteArray(Charsets.UTF_8))
+                    }
+                    Toast.makeText(this, R.string.settings_exported, Toast.LENGTH_SHORT).show()
+                } catch (_: Exception) {
+                    Toast.makeText(this, R.string.settings_error, Toast.LENGTH_SHORT).show()
+                }
+            }
+            REQ_IMPORT -> {
+                try {
+                    val text = contentResolver.openInputStream(uri)?.use {
+                        it.readBytes().toString(Charsets.UTF_8)
+                    } ?: return
+                    Prefs.importJson(this, text)
+                    // Reflect any imported changes in the UI immediately.
+                    switchLogOnly.isChecked = Prefs.isLogOnly(this)
+                    renderMode()
+                    Toast.makeText(this, R.string.settings_imported, Toast.LENGTH_SHORT).show()
+                } catch (_: Exception) {
+                    Toast.makeText(this, R.string.settings_error, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

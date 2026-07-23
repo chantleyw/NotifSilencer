@@ -2,6 +2,8 @@ package com.notifsilencer.app
 
 import android.content.Context
 import android.content.SharedPreferences
+import org.json.JSONArray
+import org.json.JSONObject
 
 /**
  * Single source of truth for all persisted config: the log-only flag, the
@@ -70,6 +72,39 @@ object Prefs {
     fun ignorePackages(ctx: Context): List<String> = getList(ctx, KEY_IGNORE, DEFAULT_IGNORE_PACKAGES)
 
     fun setIgnorePackages(ctx: Context, items: List<String>) = putList(ctx, KEY_IGNORE, items)
+
+    // --- Backup / restore ------------------------------------------------------
+
+    private const val EXPORT_VERSION = 1
+
+    /** All user settings as a pretty JSON string, for export to a file. */
+    fun exportJson(ctx: Context): String {
+        return JSONObject().apply {
+            put("version", EXPORT_VERSION)
+            put("app", "NotifSilencer")
+            put(KEY_LOG_ONLY, isLogOnly(ctx))
+            put(KEY_ALLOW, JSONArray(allowList(ctx)))
+            put(KEY_BLOCK, JSONArray(blockList(ctx)))
+            put(KEY_CHANNELS, JSONArray(blockChannels(ctx)))
+            put(KEY_IGNORE, JSONArray(ignorePackages(ctx)))
+        }.toString(2)
+    }
+
+    /** Applies settings from an exported JSON string. Only keys present are changed. */
+    fun importJson(ctx: Context, json: String) {
+        val o = JSONObject(json)
+        if (o.has(KEY_LOG_ONLY)) setLogOnly(ctx, o.getBoolean(KEY_LOG_ONLY))
+        if (o.has(KEY_ALLOW)) setAllowList(ctx, jsonToList(o.getJSONArray(KEY_ALLOW)))
+        if (o.has(KEY_BLOCK)) setBlockList(ctx, jsonToList(o.getJSONArray(KEY_BLOCK)))
+        if (o.has(KEY_CHANNELS)) setBlockChannels(ctx, jsonToList(o.getJSONArray(KEY_CHANNELS)))
+        if (o.has(KEY_IGNORE)) setIgnorePackages(ctx, jsonToList(o.getJSONArray(KEY_IGNORE)))
+    }
+
+    private fun jsonToList(arr: JSONArray): List<String> {
+        val out = ArrayList<String>(arr.length())
+        for (i in 0 until arr.length()) out.add(arr.getString(i))
+        return out
+    }
 
     private fun getList(ctx: Context, key: String, default: List<String>): List<String> {
         val raw = sp(ctx).getString(key, null) ?: return default

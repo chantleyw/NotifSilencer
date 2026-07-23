@@ -40,6 +40,12 @@
     <string name="keepalive_title">NotifSilencer is active</string>
     <string name="keepalive_text">Filtering notifications in the background.</string>
 
+    <string name="export_settings">Export settings</string>
+    <string name="import_settings">Import settings</string>
+    <string name="settings_exported">Settings exported</string>
+    <string name="settings_imported">Settings imported</string>
+    <string name="settings_error">Couldn\'t complete — check the file and try again</string>
+
     <string name="support_dev">Support development ❤️ (Ko-fi)</string>
     <string name="support_unavailable">No browser available to open the donation page.</string>
 </resources>
