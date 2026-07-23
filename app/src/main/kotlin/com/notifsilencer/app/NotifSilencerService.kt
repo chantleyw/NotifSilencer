@@ -1,6 +1,8 @@
 package com.notifsilencer.app
 
 import android.app.Notification
+import android.os.Handler
+import android.os.Looper
 import android.service.notification.NotificationListenerService
 import android.service.notification.StatusBarNotification
 import android.util.Log
@@ -28,6 +30,8 @@ class NotifSilencerService : NotificationListenerService() {
     companion object {
         const val TAG = "NotifSilencer"
     }
+
+    private val handler = Handler(Looper.getMainLooper())
 
     override fun onListenerConnected() {
         // Keep the process resident so aggressive OEM battery managers (Huawei,
@@ -87,8 +91,23 @@ class NotifSilencerService : NotificationListenerService() {
         if (logOnly) {
             record(pkg, channel, haystack, killed = false, reason = "WOULD-KILL $reason", logOnly, blocked = true)
         } else {
-            record(pkg, channel, haystack, killed = true, reason = reason, logOnly, blocked = true)
+            // Notifications flagged ongoing / no-clear / foreground-service, or that
+            // report themselves not clearable, CANNOT be cancelled by any listener —
+            // that's an Android restriction. Annotate so it's visible in the log.
+            val flags = sbn.notification?.flags ?: 0
+            val ongoing = flags and Notification.FLAG_ONGOING_EVENT != 0
+            val noClear = flags and Notification.FLAG_NO_CLEAR != 0
+            val fgs = flags and Notification.FLAG_FOREGROUND_SERVICE != 0
+            val stuck = ongoing || noClear || fgs || !sbn.isClearable
+            val note = if (stuck) {
+                " [may not clear: ongoing=$ongoing noClear=$noClear fgs=$fgs clearable=${sbn.isClearable}]"
+            } else ""
+            record(pkg, channel, haystack, killed = true, reason = reason + note, logOnly, blocked = true)
             cancelNotification(sbn.key)
+            // Some apps re-post the notification right after it's cancelled; retry a
+            // couple of times to catch those.
+            handler.postDelayed({ cancelNotification(sbn.key) }, 400)
+            handler.postDelayed({ cancelNotification(sbn.key) }, 1200)
         }
     }
 
