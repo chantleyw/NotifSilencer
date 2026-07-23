@@ -20,7 +20,29 @@
 
     <string name="blocked_history">Blocked history</string>
     <string name="blocked_history_help">Every notification the app blocked (or would block in log-only mode). Kept separately and survives clearing the main log, so you can verify the app is working. Keeps the last 500.</string>
-    <string name="intercepted_log">Intercepted (last 100)</string>
+    <string name="intercepted_log">Intercepted log</string>
+    <string name="log_tap_help">Tap any entry to block its channel or app, or ignore the app.</string>
+    <string name="manage_block">Manage block list</string>
+    <string name="manage_block_help">Notifications matching these are cancelled (ALLOW still protects payments). Add entries by tapping a notification in the log, or manually below. Tap Remove to stop blocking.</string>
+    <string name="block_list_empty">Nothing blocked yet.</string>
+    <string name="remove">Remove</string>
+    <string name="add">Add</string>
+    <string name="add_channel">Add channel</string>
+    <string name="add_app">Add app</string>
+    <string name="type_channel">CHANNEL</string>
+    <string name="type_app">APP</string>
+    <string name="hint_channel">channel id (or part of it)</string>
+    <string name="hint_app">package name, e.g. com.example.app</string>
+
+    <string name="action_title">Notification</string>
+    <string name="action_block_channel">Block this channel</string>
+    <string name="action_block_app">Block this app (all its notifications)</string>
+    <string name="action_ignore_app">Ignore this app (stop logging it)</string>
+    <string name="action_close">Close</string>
+    <string name="action_added_channel">Channel added to block list</string>
+    <string name="action_added_app">App added to block list</string>
+    <string name="action_added_ignore">App added to ignore list</string>
+    <string name="action_already">Already on the list</string>
     <string name="refresh">Refresh</string>
     <string name="clear">Clear</string>
     <string name="log_empty">No notifications intercepted yet.</string>

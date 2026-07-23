@@ -43,7 +43,11 @@ Verify it yourself: decompile the APK and confirm there's no `INTERNET` permissi
 - **Allow-first safety:** a configurable ALLOW list (payment, receipt, refund, billing, declined, invoice, …) is checked first and **always wins** — those notifications are never cancelled.
 - **Block by keyword** (recommend, offer, deal, sale, promo, …) matched against the notification text **and its channel ID**.
 - **Block by channel ID** (substring match, so rotating suffixes don't matter).
+- **Block by app** — cancel everything from a chosen app (ALLOW still protects payments).
+- **Tap-to-block from the log** — tap any intercepted notification to block its channel or app, or ignore the app, without typing anything.
+- **Managed block list** — add/remove blocked channels and apps from a list, plus a text editor for keywords/ALLOW.
 - **Tap-to-ignore app picker** — pick apps to exclude entirely from a list of your installed apps; no typing package names.
+- **Export / import settings** to a JSON file so your rules survive reinstalls.
 - **Log-only mode (default on):** records what it *would* cancel without cancelling, so you can watch real notifications before enforcing.
 - **In-app log** of the last 100 intercepted notifications (package, channel, text, verdict) — no adb needed.
 - **Keep-alive foreground service** so aggressive OEM battery managers (Honor/Huawei/Xiaomi) can't silently kill the filter.
@@ -145,11 +149,18 @@ app/src/main/kotlin/com/notifsilencer/app/
     NotifSilencerService.kt    NotificationListenerService — the core filter
     KeepAliveService.kt     foreground service that keeps the filter alive
     BootReceiver.kt         restarts keep-alive after reboot
-    MainActivity.kt         status, log-only toggle, in-app log, donate, navigation
+    MainActivity.kt         status, log-only toggle, navigation, export/import, donate
+    LogActivity.kt          intercepted log as a tappable list
+    BlockLogActivity.kt     persistent blocked-only history (tappable)
+    ManageBlockActivity.kt  add/remove blocked channels and apps
     IgnoreAppsActivity.kt   tap-to-ignore app picker
     KeywordEditActivity.kt  text editor for ALLOW / BLOCK / channel / ignore lists
-    Prefs.kt                SharedPreferences config + seed defaults
+    BlockActions.kt         "tap a log entry to block/ignore" dialog
+    LogEntryAdapter.kt      list adapter for log rows
+    LogRender.kt            shared coloured-verdict formatting
+    Prefs.kt                SharedPreferences config, defaults, export/import
     LogStore.kt             persisted ring buffer of the last 100 interceptions
+    BlockLog.kt             persistent block-decision history (500)
 app/src/main/res/…          layouts, strings, theme, adaptive launcher icon
 ```
 

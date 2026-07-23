@@ -25,7 +25,6 @@ class MainActivity : Activity() {
 
     private lateinit var statusLine: TextView
     private lateinit var modeHint: TextView
-    private lateinit var logView: TextView
     private lateinit var switchLogOnly: Switch
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +33,6 @@ class MainActivity : Activity() {
 
         statusLine = findViewById(R.id.statusLine)
         modeHint = findViewById(R.id.modeHint)
-        logView = findViewById(R.id.logView)
         switchLogOnly = findViewById(R.id.switchLogOnly)
 
         findViewById<Button>(R.id.btnAccess).setOnClickListener {
@@ -42,6 +40,18 @@ class MainActivity : Activity() {
         }
 
         findViewById<Button>(R.id.btnBattery).setOnClickListener { requestBatteryExemption() }
+
+        findViewById<Button>(R.id.btnLog).setOnClickListener {
+            startActivity(Intent(this, LogActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnBlockHistory).setOnClickListener {
+            startActivity(Intent(this, BlockLogActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnManageBlock).setOnClickListener {
+            startActivity(Intent(this, ManageBlockActivity::class.java))
+        }
 
         findViewById<Button>(R.id.btnIgnoreApps).setOnClickListener {
             startActivity(Intent(this, IgnoreAppsActivity::class.java))
@@ -51,21 +61,10 @@ class MainActivity : Activity() {
             startActivity(Intent(this, KeywordEditActivity::class.java))
         }
 
-        findViewById<Button>(R.id.btnBlockHistory).setOnClickListener {
-            startActivity(Intent(this, BlockLogActivity::class.java))
-        }
-
         findViewById<Button>(R.id.btnExport).setOnClickListener { exportSettings() }
         findViewById<Button>(R.id.btnImport).setOnClickListener { importSettings() }
 
         findViewById<Button>(R.id.btnSupport).setOnClickListener { openDonationPage() }
-
-        findViewById<Button>(R.id.btnRefresh).setOnClickListener { renderLog() }
-
-        findViewById<Button>(R.id.btnClear).setOnClickListener {
-            LogStore.clear(this)
-            renderLog()
-        }
 
         switchLogOnly.isChecked = Prefs.isLogOnly(this)
         switchLogOnly.setOnCheckedChangeListener { _, checked ->
@@ -158,7 +157,6 @@ class MainActivity : Activity() {
         super.onResume()
         renderStatus()
         renderMode()
-        renderLog()
     }
 
     private fun renderStatus() {
@@ -176,15 +174,6 @@ class MainActivity : Activity() {
         } else {
             getString(R.string.mode_enforce)
         }
-    }
-
-    private fun renderLog() {
-        val entries = LogStore.all(this)
-        if (entries.isEmpty()) {
-            logView.text = getString(R.string.log_empty)
-            return
-        }
-        logView.text = LogRender.format(entries)
     }
 
     /** Reads enabled_notification_listeners and looks for our component. */

@@ -7,10 +7,10 @@ import android.widget.ListView
 import android.widget.TextView
 
 /**
- * Persistent [BlockLog] history as a tappable list (survives clearing the main
- * log). Tapping a row opens [BlockActions] for one-tap list editing.
+ * The intercepted log as a tappable list. Tapping a row opens [BlockActions]
+ * so a notification can be added to the block/ignore lists without typing.
  */
-class BlockLogActivity : Activity() {
+class LogActivity : Activity() {
 
     private lateinit var list: ListView
     private lateinit var empty: TextView
@@ -19,12 +19,11 @@ class BlockLogActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loglist)
-        findViewById<TextView>(R.id.listHeader).setText(R.string.blocked_history)
-        findViewById<TextView>(R.id.listHelp).setText(R.string.blocked_history_help)
+        findViewById<TextView>(R.id.listHeader).setText(R.string.intercepted_log)
         list = findViewById(R.id.logList)
         empty = findViewById(R.id.emptyView)
 
-        adapter = LogEntryAdapter(this, BlockLog.all(this))
+        adapter = LogEntryAdapter(this, LogStore.all(this))
         list.adapter = adapter
         list.onItemClickListener = android.widget.AdapterView.OnItemClickListener { _, _, pos, _ ->
             BlockActions.show(this, adapter.getItem(pos)) { render() }
@@ -32,7 +31,7 @@ class BlockLogActivity : Activity() {
 
         findViewById<Button>(R.id.btnRefresh).setOnClickListener { render() }
         findViewById<Button>(R.id.btnClear).setOnClickListener {
-            BlockLog.clear(this)
+            LogStore.clear(this)
             render()
         }
     }
@@ -43,7 +42,7 @@ class BlockLogActivity : Activity() {
     }
 
     private fun render() {
-        val entries = BlockLog.all(this)
+        val entries = LogStore.all(this)
         adapter.setEntries(entries)
         empty.visibility = if (entries.isEmpty()) android.view.View.VISIBLE else android.view.View.GONE
     }

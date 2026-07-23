@@ -12,10 +12,10 @@
         android:gravity="center_vertical">
 
         <TextView
+            android:id="@+id/listHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/blocked_history"
             android:textStyle="bold"
             android:textSize="16sp" />
 
@@ -33,25 +33,23 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/listHelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
         android:paddingBottom="8dp"
         android:textSize="12sp"
-        android:text="@string/blocked_history_help" />
+        android:text="@string/log_tap_help" />
 
-    <ScrollView
+    <TextView
+        android:id="@+id/emptyView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/log_empty" />
+
+    <ListView
+        android:id="@+id/logList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <TextView
-            android:id="@+id/blockLogView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:textSize="11sp"
-            android:textIsSelectable="true"
-            android:text="@string/log_empty" />
-    </ScrollView>
+        android:layout_weight="1" />
 </LinearLayout>

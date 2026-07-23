@@ -48,6 +48,16 @@
             android:exported="false"
             android:label="@string/blocked_history" />
 
+        <activity
+            android:name=".LogActivity"
+            android:exported="false"
+            android:label="@string/intercepted_log" />
+
+        <activity
+            android:name=".ManageBlockActivity"
+            android:exported="false"
+            android:label="@string/manage_block" />
+
         <service
             android:name=".NotifSilencerService"
             android:exported="false"

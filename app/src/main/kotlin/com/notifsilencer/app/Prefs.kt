@@ -20,6 +20,7 @@ object Prefs {
     private const val KEY_ALLOW = "allow_list"
     private const val KEY_BLOCK = "block_list"
     private const val KEY_CHANNELS = "block_channels"
+    private const val KEY_BLOCK_PACKAGES = "block_packages"
     private const val KEY_IGNORE = "ignore_packages"
 
     // Bias toward false negatives: if a payment-ish word appears, we never cancel.
@@ -40,6 +41,10 @@ object Prefs {
     // Empty by default — populate once you have observed real Play Store channel IDs
     // from log-only mode. Channel match is exact (case-insensitive).
     val DEFAULT_CHANNELS = emptyList<String>()
+
+    // Packages whose notifications are always cancelled (prefix match). ALLOW still
+    // wins first, so a payment/billing notification is never killed even here.
+    val DEFAULT_BLOCK_PACKAGES = emptyList<String>()
 
     // Packages skipped entirely: never logged, never matched, never cancelled.
     // Matched by prefix, so "com.whatsapp" also covers "com.whatsapp.w4b" (Business).
@@ -69,9 +74,21 @@ object Prefs {
 
     fun setBlockChannels(ctx: Context, items: List<String>) = putList(ctx, KEY_CHANNELS, items)
 
+    fun blockPackages(ctx: Context): List<String> = getList(ctx, KEY_BLOCK_PACKAGES, DEFAULT_BLOCK_PACKAGES)
+
+    fun setBlockPackages(ctx: Context, items: List<String>) = putList(ctx, KEY_BLOCK_PACKAGES, items)
+
     fun ignorePackages(ctx: Context): List<String> = getList(ctx, KEY_IGNORE, DEFAULT_IGNORE_PACKAGES)
 
     fun setIgnorePackages(ctx: Context, items: List<String>) = putList(ctx, KEY_IGNORE, items)
+
+    /** Adds a single value to a list if not already present (case-insensitive). Returns true if added. */
+    fun addTo(ctx: Context, list: List<String>, value: String, setter: (Context, List<String>) -> Unit): Boolean {
+        val v = value.trim().lowercase()
+        if (v.isEmpty() || list.contains(v)) return false
+        setter(ctx, list + v)
+        return true
+    }
 
     // --- Backup / restore ------------------------------------------------------
 
@@ -86,6 +103,7 @@ object Prefs {
             put(KEY_ALLOW, JSONArray(allowList(ctx)))
             put(KEY_BLOCK, JSONArray(blockList(ctx)))
             put(KEY_CHANNELS, JSONArray(blockChannels(ctx)))
+            put(KEY_BLOCK_PACKAGES, JSONArray(blockPackages(ctx)))
             put(KEY_IGNORE, JSONArray(ignorePackages(ctx)))
         }.toString(2)
     }
@@ -97,6 +115,7 @@ object Prefs {
         if (o.has(KEY_ALLOW)) setAllowList(ctx, jsonToList(o.getJSONArray(KEY_ALLOW)))
         if (o.has(KEY_BLOCK)) setBlockList(ctx, jsonToList(o.getJSONArray(KEY_BLOCK)))
         if (o.has(KEY_CHANNELS)) setBlockChannels(ctx, jsonToList(o.getJSONArray(KEY_CHANNELS)))
+        if (o.has(KEY_BLOCK_PACKAGES)) setBlockPackages(ctx, jsonToList(o.getJSONArray(KEY_BLOCK_PACKAGES)))
         if (o.has(KEY_IGNORE)) setIgnorePackages(ctx, jsonToList(o.getJSONArray(KEY_IGNORE)))
     }
 

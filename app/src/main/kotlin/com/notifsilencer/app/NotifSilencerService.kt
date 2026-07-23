@@ -59,6 +59,7 @@ class NotifSilencerService : NotificationListenerService() {
         val allow = Prefs.allowList(this)
         val block = Prefs.blockList(this)
         val blockChannels = Prefs.blockChannels(this)
+        val blockPackages = Prefs.blockPackages(this)
         val logOnly = Prefs.isLogOnly(this)
 
         // 1. ALLOW wins outright — never cancel a payment/billing notification.
@@ -68,22 +69,25 @@ class NotifSilencerService : NotificationListenerService() {
             return
         }
 
-        // 2. Channel-based block. Substring match, because channel ids often carry
+        // 2. Package-based block — cancel everything from this app (ALLOW already ran).
+        val pkgHit = blockPackages.firstOrNull { it.isNotEmpty() && pkg.startsWith(it) }
+        // 3. Channel-based block. Substring match, because channel ids often carry
         // a variable per-notification suffix (e.g. "...RECOMMEND.03pnc").
         val channelHit = blockChannels.firstOrNull {
             it.isNotEmpty() && channel.lowercase().contains(it)
         }
-        // 3. Keyword-based block (text + channel id).
+        // 4. Keyword-based block (text + channel id).
         val blockHit = block.firstOrNull { it.isNotEmpty() && matchText.contains(it) }
 
         val reason = when {
+            pkgHit != null -> "block-pkg:$pkgHit"
             channelHit != null -> "block-channel:$channelHit"
             blockHit != null -> "block:$blockHit"
             else -> null
         }
 
         if (reason == null) {
-            // 4. No match — keep, biased toward letting it through.
+            // 5. No match — keep, biased toward letting it through.
             record(pkg, channel, haystack, killed = false, reason = "keep:no-match", logOnly)
             return
         }
