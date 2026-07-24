@@ -1,0 +1,2 @@
+- Fixed: long notifications (e.g. full email bodies) no longer make log entries huge or push the block/ignore buttons off-screen
+- Log, blocked history, and the tap-to-block dialog now show a short text preview; the channel ID is still shown in full
