@@ -180,3 +180,11 @@ NotifSilencer is free and open source. If it saved your sanity, you can chip in:
 - It can't rewrite an app's notification channels; it cancels matching notifications instead.
 - After a reboot, open the app once to be sure the listener is reconnected (some OEMs delay re-binding).
 - Off-Play means **no auto-update** — grab new APKs from Releases.
+
+---
+
+## License
+
+NotifSilencer is free software licensed under the **GNU General Public License v3.0** — see [LICENSE](LICENSE). You may use, study, share, and modify it, but any distributed derivative must also be open source under the GPLv3 (no closed-source or ad-supported repackaging).
+
+Copyright © 2026 chantleyw and contributors.
