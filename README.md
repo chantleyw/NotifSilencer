@@ -10,6 +10,18 @@ NotifSilencer is a lightweight, open-source notification filter for Android. It 
 
 ---
 
+## Screenshots
+
+<p>
+  <img src="docs/screenshots/main-screen.jpg" width="270" alt="NotifSilencer main screen — notification access granted, enforce mode" />
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/tap-to-block.jpg" width="270" alt="Tap any logged notification to block its channel or app" />
+</p>
+
+*Left: the main screen. Right: tap any intercepted notification to block its channel or app — no typing.*
+
+---
+
 ## The problem it solves
 
 Some phones — Honor and Huawei especially — push "Recommendations" spam through a **system push agent** (`com.hihonor.android.pushagent`) that you **cannot disable** in notification settings. The word that identifies them isn't even in the visible text; it's hidden in the notification's *channel ID* (`…RECOMMEND…`), with a rotating suffix. That's why:
