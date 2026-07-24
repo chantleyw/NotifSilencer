@@ -34,12 +34,20 @@ object LogRender {
         sb.append(verdict)
         sb.setSpan(ForegroundColorSpan(colour), start, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         sb.setSpan(StyleSpan(Typeface.BOLD), start, sb.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        // Collapse whitespace and truncate the body — a full email/message would
+        // otherwise make rows huge. The channel id (the key for blocking) is shown
+        // in full above; the text here is just a preview to identify the notification.
+        val preview = e.text.replace(Regex("\\s+"), " ").trim().let {
+            if (it.length > TEXT_PREVIEW_MAX) it.take(TEXT_PREVIEW_MAX).trimEnd() + "…" else it
+        }
         sb.append("  ").append(e.reason).append('\n')
             .append("  pkg=").append(e.pkg).append('\n')
             .append("  ch=").append(if (e.channel.isEmpty()) "(none)" else e.channel).append('\n')
-            .append("  ").append(e.text.ifEmpty { "(no text)" })
+            .append("  ").append(preview.ifEmpty { "(no text)" })
         return sb
     }
+
+    private const val TEXT_PREVIEW_MAX = 160
 
     fun format(entries: List<LogStore.Entry>): CharSequence {
         val sb = SpannableStringBuilder()

@@ -19,12 +19,9 @@ object BlockActions {
 
     fun show(activity: Activity, entry: LogStore.Entry, onChanged: () -> Unit) {
         val view = activity.layoutInflater.inflate(R.layout.dialog_block_actions, null)
-        // Show a compact preview: collapse newlines and truncate the body so a long
-        // notification (e.g. a full Gmail message) can't push the buttons off-screen.
-        val preview = entry.text.replace(Regex("\\s+"), " ").trim().let {
-            if (it.length > 140) it.take(140).trimEnd() + "…" else it
-        }
-        view.findViewById<TextView>(R.id.dlgDetails).text = LogRender.formatEntry(entry.copy(text = preview))
+        // formatEntry already collapses + truncates the body, and the layout caps
+        // the detail to 8 lines, so the action buttons always stay visible.
+        view.findViewById<TextView>(R.id.dlgDetails).text = LogRender.formatEntry(entry)
 
         val dialog = AlertDialog.Builder(activity)
             .setTitle(R.string.action_title)
