@@ -5,20 +5,18 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ScrollView
+    <!-- Details are capped to a few lines (with ellipsis) so a long notification
+         can never push the action buttons off-screen. Full text is in the log row. -->
+    <TextView
+        android:id="@+id/dlgDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxHeight="220dp"
-        android:paddingBottom="12dp">
-
-        <TextView
-            android:id="@+id/dlgDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:textSize="11sp"
-            android:textIsSelectable="true" />
-    </ScrollView>
+        android:fontFamily="monospace"
+        android:textSize="11sp"
+        android:maxLines="8"
+        android:ellipsize="end"
+        android:paddingBottom="12dp"
+        android:textIsSelectable="true" />
 
     <Button
         android:id="@+id/dlgBlockChannel"

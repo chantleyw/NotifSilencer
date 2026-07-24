@@ -19,7 +19,12 @@ object BlockActions {
 
     fun show(activity: Activity, entry: LogStore.Entry, onChanged: () -> Unit) {
         val view = activity.layoutInflater.inflate(R.layout.dialog_block_actions, null)
-        view.findViewById<TextView>(R.id.dlgDetails).text = LogRender.formatEntry(entry)
+        // Show a compact preview: collapse newlines and truncate the body so a long
+        // notification (e.g. a full Gmail message) can't push the buttons off-screen.
+        val preview = entry.text.replace(Regex("\\s+"), " ").trim().let {
+            if (it.length > 140) it.take(140).trimEnd() + "…" else it
+        }
+        view.findViewById<TextView>(R.id.dlgDetails).text = LogRender.formatEntry(entry.copy(text = preview))
 
         val dialog = AlertDialog.Builder(activity)
             .setTitle(R.string.action_title)
