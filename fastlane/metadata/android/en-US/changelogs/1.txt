@@ -1,0 +1,7 @@
+First release.
+
+- Block promotional / "Recommendations" notifications from any app, by keyword, channel ID, or app
+- Allow-first: payment/billing/OTP notifications are never cancelled
+- Tap a logged notification to block its channel or app
+- Log-only mode, persistent blocked-history log, export/import settings
+- No internet permission, no trackers, on-device only

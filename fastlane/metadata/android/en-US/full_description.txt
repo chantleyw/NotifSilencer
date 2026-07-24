@@ -1,0 +1,23 @@
+NotifSilencer silences promotional and "Recommendations" notifications while always letting important ones (payments, billing, OTP) through. It was built to kill the Honor/Huawei "Recommendations" spam that has no off switch in system settings, but it works as a general notification filter for any app.
+
+Why it exists:
+
+Some phones (Honor and Huawei especially) push "Recommendations" notifications through a system service that you cannot disable in settings. The word that identifies them is hidden in the notification's channel ID, not the visible text, so ordinary blockers miss them — and aggressive battery management kills those apps before the next notification arrives. NotifSilencer matches on the channel ID and keeps itself alive.
+
+Features:
+
+* Blocks promo/recommendation notifications from any app, by keyword, channel ID, or app
+* Payments always get through — an allow-first list (payment, billing, OTP, etc.) is checked first and never cancelled
+* Tap a notification in the log to block its channel or app — no typing package names
+* Log-only mode to preview what it would block before enforcing
+* Persistent blocked-history log; export/import your settings
+* Ignore any app entirely (messaging apps stay untouched)
+
+Privacy:
+
+* No INTERNET permission — the app cannot connect to the network or send data anywhere; this is enforced by Android, not just a promise
+* No analytics, no ads, no trackers
+* Everything stays on your device
+* Fully open source (GPLv3) — read exactly what it does
+
+Note for Honor/Huawei: you must allow the app to auto-launch and disable battery optimization for it, or the system will kill the background service.
