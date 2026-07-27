@@ -33,6 +33,8 @@
     <string name="add_app">Add app</string>
     <string name="type_channel">CHANNEL</string>
     <string name="type_app">APP</string>
+    <string name="type_keyword">KEYWORD</string>
+    <string name="type_override">OVERRIDE</string>
     <string name="hint_channel">channel id (or part of it)</string>
     <string name="hint_app">package name, e.g. com.example.app</string>
 
