@@ -82,6 +82,11 @@ object BlockActions {
      */
     private fun promptKeyword(activity: Activity, entry: LogStore.Entry, onChanged: () -> Unit) {
         val input = EditText(activity).apply {
+            inputType = android.text.InputType.TYPE_CLASS_TEXT or
+                android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+            minLines = 3
+            maxLines = 5
+            gravity = android.view.Gravity.TOP or android.view.Gravity.START
             setText(entry.text.replace(Regex("\\s+"), " ").trim().take(60))
             setSelection(text.length)
         }
