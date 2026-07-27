@@ -77,6 +77,18 @@ object LogRender {
 
     private const val TEXT_PREVIEW_MAX = 160
 
+    /** Case-insensitive filter over text, package, channel, and reason. Empty query = all. */
+    fun filter(entries: List<LogStore.Entry>, query: String): List<LogStore.Entry> {
+        val q = query.trim().lowercase()
+        if (q.isEmpty()) return entries
+        return entries.filter {
+            it.text.lowercase().contains(q) ||
+                it.pkg.lowercase().contains(q) ||
+                it.channel.lowercase().contains(q) ||
+                it.reason.lowercase().contains(q)
+        }
+    }
+
     fun format(entries: List<LogStore.Entry>): CharSequence {
         val sb = SpannableStringBuilder()
         for (e in entries) sb.append(formatEntry(e)).append("\n\n")

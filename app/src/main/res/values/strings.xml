@@ -23,6 +23,7 @@
     <string name="blocked_history_help">Every notification the app blocked (or would block in log-only mode). Kept separately and survives clearing the main log, so you can verify the app is working. Keeps the last 500.</string>
     <string name="intercepted_log">Intercepted log</string>
     <string name="log_tap_help">Tap any entry to block its channel or app, or ignore the app.</string>
+    <string name="search_hint">Search text, package, or channel…</string>
     <string name="manage_block">Manage block list</string>
     <string name="manage_block_help">Notifications matching these are cancelled (ALLOW still protects payments). Add entries by tapping a notification in the log, or manually below. Tap Remove to stop blocking.</string>
     <string name="block_list_empty">Nothing blocked yet.</string>

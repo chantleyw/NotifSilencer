@@ -41,6 +41,16 @@
         android:textSize="12sp"
         android:text="@string/log_tap_help" />
 
+    <EditText
+        android:id="@+id/searchBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_hint"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:importantForAutofill="no" />
+
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
