@@ -1,0 +1,9 @@
+v1.2 — new blocking tools and tidier lists
+
+- Block by message content: tap a notification and add a word/phrase; any message containing it is blocked, whatever the app, package, or channel.
+- Override list: block wanted-looking messages that aren't yours (e.g. a payment SMS for the number's previous owner) even though they match the payment/OTP allow list.
+- Search box in the intercepted log and blocked history — find a specific message by text, package, or channel.
+- Filters: intercepted log (All / Kept / Killed / Would-kill) and manage block list (by type).
+- Manage block list now shows every rule type (keyword, override, channel, app), each removable.
+- Blocked history / log now underline the exact cause of each decision (channel, keyword, package, override in red; allow in green).
+- Keyword editor sections are collapsible and start collapsed for a tidier screen.

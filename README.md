@@ -56,8 +56,12 @@ Verify it yourself: decompile the APK and confirm there's no `INTERNET` permissi
 - **Block by keyword** (recommend, offer, deal, sale, promo, …) matched against the notification text **and its channel ID**.
 - **Block by channel ID** (substring match, so rotating suffixes don't matter).
 - **Block by app** — cancel everything from a chosen app (ALLOW still protects payments).
-- **Tap-to-block from the log** — tap any intercepted notification to block its channel or app, or ignore the app, without typing anything.
-- **Managed block list** — add/remove blocked channels and apps from a list, plus a text editor for keywords/ALLOW.
+- **Block by message content** — add a word/phrase from a message; any notification containing it is blocked, whatever the app, package, or channel changes to.
+- **Override list** — block wanted-looking messages that aren't yours (e.g. a payment SMS for the number's previous owner) even though they match the payment/OTP allow list.
+- **Tap-to-block from the log** — tap any intercepted notification to block its channel, app, or content, or ignore the app, without typing.
+- **Search + filters** — search the log/blocked history by text, package, or channel; filter the log by Kept/Killed and the block list by rule type.
+- **Cause highlighting** — the exact token that caused each decision is underlined (red for a block, green for an allow), so you can see *why* at a glance.
+- **Managed block list** — every rule (keyword, override, channel, app) in one list, each removable; plus a collapsible text editor for all lists.
 - **Tap-to-ignore app picker** — pick apps to exclude entirely from a list of your installed apps; no typing package names.
 - **Export / import settings** to a JSON file so your rules survive reinstalls.
 - **Log-only mode (default on):** records what it *would* cancel without cancelling, so you can watch real notifications before enforcing.
