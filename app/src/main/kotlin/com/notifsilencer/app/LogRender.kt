@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.text.style.UnderlineSpan
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -44,7 +45,34 @@ object LogRender {
             .append("  pkg=").append(e.pkg).append('\n')
             .append("  ch=").append(if (e.channel.isEmpty()) "(none)" else e.channel).append('\n')
             .append("  ").append(preview.ifEmpty { "(no text)" })
+
+        // Highlight what actually caused the decision — the matched channel substring,
+        // keyword, or package — wherever it appears, so the cause is obvious at a glance.
+        highlightCause(sb, e.reason)
         return sb
+    }
+
+    /** Underlines + colours every occurrence of the token that triggered the block/allow. */
+    private fun highlightCause(sb: SpannableStringBuilder, reason: String) {
+        val r = reason.removePrefix("WOULD-KILL ").trim()
+        val colon = r.indexOf(':')
+        if (colon < 0) return
+        val type = r.substring(0, colon)
+        val token = r.substring(colon + 1).trim()
+        if (token.isEmpty() || token == "no-match") return
+        val colour = when {
+            type.startsWith("block") -> RED
+            type == "allow" -> GREEN
+            else -> return
+        }
+        val hay = sb.toString().lowercase()
+        val needle = token.lowercase()
+        var i = hay.indexOf(needle)
+        while (i >= 0) {
+            sb.setSpan(ForegroundColorSpan(colour), i, i + needle.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            sb.setSpan(UnderlineSpan(), i, i + needle.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            i = hay.indexOf(needle, i + needle.length)
+        }
     }
 
     private const val TEXT_PREVIEW_MAX = 160

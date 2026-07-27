@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 
@@ -53,6 +54,13 @@ object BlockActions {
             onChanged(); dialog.dismiss()
         }
 
+        val keywordBtn = view.findViewById<Button>(R.id.dlgBlockKeyword)
+        keywordBtn.text = activity.getString(R.string.action_block_keyword)
+        keywordBtn.setOnClickListener {
+            dialog.dismiss()
+            promptKeyword(activity, entry, onChanged)
+        }
+
         val ignoreBtn = view.findViewById<Button>(R.id.dlgIgnoreApp)
         ignoreBtn.text = activity.getString(R.string.action_ignore_app) + "\n" + entry.pkg
         ignoreBtn.setOnClickListener {
@@ -64,6 +72,32 @@ object BlockActions {
         }
 
         dialog.show()
+    }
+
+    /**
+     * "Block messages containing this text" — adds a phrase to the BLOCK keyword
+     * list, which matches the notification text (and channel id) of ANY app. Useful
+     * for recurring spam whose wording stays the same while the package/channel change.
+     * Pre-fills with the notification text so the user can trim it to a distinctive phrase.
+     */
+    private fun promptKeyword(activity: Activity, entry: LogStore.Entry, onChanged: () -> Unit) {
+        val input = EditText(activity).apply {
+            setText(entry.text.replace(Regex("\\s+"), " ").trim().take(60))
+            setSelection(text.length)
+        }
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.action_block_keyword)
+            .setMessage(R.string.action_block_keyword_help)
+            .setView(input)
+            .setPositiveButton(R.string.add) { _, _ ->
+                val added = Prefs.addTo(
+                    activity, Prefs.blockList(activity), input.text.toString(), Prefs::setBlockList
+                )
+                toast(activity, added, R.string.action_added_keyword)
+                onChanged()
+            }
+            .setNegativeButton(R.string.action_close, null)
+            .show()
     }
 
     private fun toast(activity: Activity, added: Boolean, addedRes: Int) {

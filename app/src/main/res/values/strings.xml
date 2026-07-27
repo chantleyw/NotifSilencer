@@ -38,6 +38,9 @@
     <string name="action_title">Notification</string>
     <string name="action_block_channel">Block this channel</string>
     <string name="action_block_app">Block this app (all its notifications)</string>
+    <string name="action_block_keyword">Block messages containing text…</string>
+    <string name="action_block_keyword_help">Enter a word or phrase. Any notification whose text or channel contains it will be blocked — from any app, whatever the package or channel. Trim it to the distinctive part of the message.</string>
+    <string name="action_added_keyword">Keyword added to block list</string>
     <string name="action_ignore_app">Ignore this app (stop logging it)</string>
     <string name="action_close">Close</string>
     <string name="action_added_channel">Channel added to block list</string>
