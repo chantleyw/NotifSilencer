@@ -24,6 +24,21 @@
     <string name="intercepted_log">Intercepted log</string>
     <string name="log_tap_help">Tap any entry to block its channel or app, or ignore the app.</string>
     <string name="search_hint">Search text, package, or channel…</string>
+
+    <string-array name="verdict_filters">
+        <item>All</item>
+        <item>Kept</item>
+        <item>Killed</item>
+        <item>Would-kill (log-only)</item>
+    </string-array>
+
+    <string-array name="blocktype_filters">
+        <item>All types</item>
+        <item>Keyword</item>
+        <item>Override</item>
+        <item>Channel</item>
+        <item>App</item>
+    </string-array>
     <string name="manage_block">Manage block list</string>
     <string name="manage_block_help">Notifications matching these are cancelled (ALLOW still protects payments). Add entries by tapping a notification in the log, or manually below. Tap Remove to stop blocking.</string>
     <string name="block_list_empty">Nothing blocked yet.</string>

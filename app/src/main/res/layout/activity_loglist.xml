@@ -51,6 +51,13 @@
         android:maxLines="1"
         android:importantForAutofill="no" />
 
+    <Spinner
+        android:id="@+id/verdictFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
+
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="match_parent"

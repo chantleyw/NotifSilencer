@@ -6,10 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.Spinner
 import android.widget.TextView
 
 /**
@@ -26,6 +29,7 @@ class ManageBlockActivity : Activity() {
 
     private lateinit var list: ListView
     private lateinit var empty: TextView
+    private lateinit var typeFilter: Spinner
     private val items = ArrayList<Item>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,7 +37,16 @@ class ManageBlockActivity : Activity() {
         setContentView(R.layout.activity_manageblock)
         list = findViewById(R.id.blockList)
         empty = findViewById(R.id.emptyView)
+        typeFilter = findViewById(R.id.typeFilter)
         list.adapter = Adapter()
+
+        typeFilter.adapter = ArrayAdapter.createFromResource(
+            this, R.array.blocktype_filters, android.R.layout.simple_spinner_item
+        ).apply { setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
+        typeFilter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p: AdapterView<*>?, v: View?, pos: Int, id: Long) = reload()
+            override fun onNothingSelected(p: AdapterView<*>?) {}
+        }
 
         findViewById<Button>(R.id.btnAddChannel).setOnClickListener {
             promptAdd(R.string.add_channel, Type.CHANNEL)
@@ -50,10 +63,12 @@ class ManageBlockActivity : Activity() {
 
     private fun reload() {
         items.clear()
-        Prefs.blockList(this).forEach { items.add(Item(Type.KEYWORD, it)) }
-        Prefs.forceBlockList(this).forEach { items.add(Item(Type.OVERRIDE, it)) }
-        Prefs.blockChannels(this).forEach { items.add(Item(Type.CHANNEL, it)) }
-        Prefs.blockPackages(this).forEach { items.add(Item(Type.APP, it)) }
+        // Spinner: 0 All, 1 Keyword, 2 Override, 3 Channel, 4 App
+        val sel = typeFilter.selectedItemPosition
+        if (sel == 0 || sel == 1) Prefs.blockList(this).forEach { items.add(Item(Type.KEYWORD, it)) }
+        if (sel == 0 || sel == 2) Prefs.forceBlockList(this).forEach { items.add(Item(Type.OVERRIDE, it)) }
+        if (sel == 0 || sel == 3) Prefs.blockChannels(this).forEach { items.add(Item(Type.CHANNEL, it)) }
+        if (sel == 0 || sel == 4) Prefs.blockPackages(this).forEach { items.add(Item(Type.APP, it)) }
         empty.visibility = if (items.isEmpty()) View.VISIBLE else View.GONE
         (list.adapter as Adapter).notifyDataSetChanged()
     }

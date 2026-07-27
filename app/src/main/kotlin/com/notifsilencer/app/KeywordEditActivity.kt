@@ -2,8 +2,10 @@ package com.notifsilencer.app
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 
 /**
@@ -35,6 +37,13 @@ class KeywordEditActivity : Activity() {
             Prefs.blockChannels(this),
             Prefs.ignorePackages(this)
         )
+
+        // Each section is collapsible and starts collapsed to keep the screen tidy.
+        setupSection(R.id.allowHeader, allowEdit, R.string.allow_header)
+        setupSection(R.id.blockHeader, blockEdit, R.string.block_header)
+        setupSection(R.id.forceHeader, forceEdit, R.string.force_header)
+        setupSection(R.id.channelsHeader, channelsEdit, R.string.channels_header)
+        setupSection(R.id.ignoreHeader, ignoreEdit, R.string.ignore_header)
 
         findViewById<Button>(R.id.btnSave).setOnClickListener { save() }
 
@@ -72,6 +81,18 @@ class KeywordEditActivity : Activity() {
         Prefs.setIgnorePackages(this, toLines(ignoreEdit))
         Toast.makeText(this, R.string.saved, Toast.LENGTH_SHORT).show()
         finish()
+    }
+
+    /** Makes a header toggle its section; collapsed by default with a caret indicator. */
+    private fun setupSection(headerId: Int, edit: EditText, titleRes: Int) {
+        val header = findViewById<TextView>(headerId)
+        var expanded = false
+        fun apply() {
+            edit.visibility = if (expanded) View.VISIBLE else View.GONE
+            header.text = (if (expanded) "▾  " else "▸  ") + getString(titleRes)
+        }
+        apply()
+        header.setOnClickListener { expanded = !expanded; apply() }
     }
 
     private fun toLines(edit: EditText): List<String> =

@@ -30,6 +30,8 @@ class BlockLogActivity : Activity() {
         list = findViewById(R.id.logList)
         empty = findViewById(R.id.emptyView)
         search = findViewById(R.id.searchBox)
+        // Blocked history is all-blocked by nature — no verdict filter needed.
+        findViewById<View>(R.id.verdictFilter).visibility = View.GONE
 
         adapter = LogEntryAdapter(this, emptyList())
         list.adapter = adapter

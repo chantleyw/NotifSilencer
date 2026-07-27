@@ -18,10 +18,12 @@
             android:paddingBottom="12dp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/allowHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/allow_header"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingVertical="10dp"
+            android:background="?android:attr/selectableItemBackground" />
 
         <EditText
             android:id="@+id/allowEdit"
@@ -34,11 +36,12 @@
             android:importantForAutofill="no" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/blockHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:text="@string/block_header"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingVertical="10dp"
+            android:background="?android:attr/selectableItemBackground" />
 
         <EditText
             android:id="@+id/blockEdit"
@@ -51,11 +54,12 @@
             android:importantForAutofill="no" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/forceHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:text="@string/force_header"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingVertical="10dp"
+            android:background="?android:attr/selectableItemBackground" />
 
         <EditText
             android:id="@+id/forceEdit"
@@ -68,11 +72,12 @@
             android:importantForAutofill="no" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/channelsHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:text="@string/channels_header"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingVertical="10dp"
+            android:background="?android:attr/selectableItemBackground" />
 
         <EditText
             android:id="@+id/channelsEdit"
@@ -85,11 +90,12 @@
             android:importantForAutofill="no" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/ignoreHeader"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:text="@string/ignore_header"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:paddingVertical="10dp"
+            android:background="?android:attr/selectableItemBackground" />
 
         <EditText
             android:id="@+id/ignoreEdit"

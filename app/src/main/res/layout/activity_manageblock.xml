@@ -41,6 +41,12 @@
             android:text="@string/add_app" />
     </LinearLayout>
 
+    <Spinner
+        android:id="@+id/typeFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="4dp" />
+
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="match_parent"
