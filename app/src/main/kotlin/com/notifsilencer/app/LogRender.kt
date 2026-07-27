@@ -60,10 +60,9 @@ object LogRender {
         val type = r.substring(0, colon)
         val token = r.substring(colon + 1).trim()
         if (token.isEmpty() || token == "no-match") return
-        val colour = when {
-            type.startsWith("block") -> RED
-            type == "allow" -> GREEN
-            else -> return
+        val colour = when (type) {
+            "allow" -> GREEN
+            else -> RED   // block, block-channel, block-pkg, force-block
         }
         val hay = sb.toString().lowercase()
         val needle = token.lowercase()

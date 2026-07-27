@@ -21,6 +21,7 @@ object Prefs {
     private const val KEY_BLOCK = "block_list"
     private const val KEY_CHANNELS = "block_channels"
     private const val KEY_BLOCK_PACKAGES = "block_packages"
+    private const val KEY_FORCE_BLOCK = "force_block"
     private const val KEY_IGNORE = "ignore_packages"
 
     // Bias toward false negatives: if a payment-ish word appears, we never cancel.
@@ -45,6 +46,11 @@ object Prefs {
     // Packages whose notifications are always cancelled (prefix match). ALLOW still
     // wins first, so a payment/billing notification is never killed even here.
     val DEFAULT_BLOCK_PACKAGES = emptyList<String>()
+
+    // Override keywords: block even if an ALLOW keyword also matches. Checked BEFORE
+    // ALLOW, so these beat the payment/OTP safety net — use for wanted-but-not-yours
+    // messages (e.g. a payment SMS meant for the number's previous owner).
+    val DEFAULT_FORCE_BLOCK = emptyList<String>()
 
     // Packages skipped entirely: never logged, never matched, never cancelled.
     // Matched by prefix, so "com.whatsapp" also covers "com.whatsapp.w4b" (Business).
@@ -78,6 +84,10 @@ object Prefs {
 
     fun setBlockPackages(ctx: Context, items: List<String>) = putList(ctx, KEY_BLOCK_PACKAGES, items)
 
+    fun forceBlockList(ctx: Context): List<String> = getList(ctx, KEY_FORCE_BLOCK, DEFAULT_FORCE_BLOCK)
+
+    fun setForceBlockList(ctx: Context, items: List<String>) = putList(ctx, KEY_FORCE_BLOCK, items)
+
     fun ignorePackages(ctx: Context): List<String> = getList(ctx, KEY_IGNORE, DEFAULT_IGNORE_PACKAGES)
 
     fun setIgnorePackages(ctx: Context, items: List<String>) = putList(ctx, KEY_IGNORE, items)
@@ -104,6 +114,7 @@ object Prefs {
             put(KEY_BLOCK, JSONArray(blockList(ctx)))
             put(KEY_CHANNELS, JSONArray(blockChannels(ctx)))
             put(KEY_BLOCK_PACKAGES, JSONArray(blockPackages(ctx)))
+            put(KEY_FORCE_BLOCK, JSONArray(forceBlockList(ctx)))
             put(KEY_IGNORE, JSONArray(ignorePackages(ctx)))
         }.toString(2)
     }
@@ -116,6 +127,7 @@ object Prefs {
         if (o.has(KEY_BLOCK)) setBlockList(ctx, jsonToList(o.getJSONArray(KEY_BLOCK)))
         if (o.has(KEY_CHANNELS)) setBlockChannels(ctx, jsonToList(o.getJSONArray(KEY_CHANNELS)))
         if (o.has(KEY_BLOCK_PACKAGES)) setBlockPackages(ctx, jsonToList(o.getJSONArray(KEY_BLOCK_PACKAGES)))
+        if (o.has(KEY_FORCE_BLOCK)) setForceBlockList(ctx, jsonToList(o.getJSONArray(KEY_FORCE_BLOCK)))
         if (o.has(KEY_IGNORE)) setIgnorePackages(ctx, jsonToList(o.getJSONArray(KEY_IGNORE)))
     }
 

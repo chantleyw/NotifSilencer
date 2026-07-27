@@ -42,6 +42,8 @@
     <string name="action_block_keyword">Block messages containing text…</string>
     <string name="action_block_keyword_help">Word or phrase to block (any app that contains it):</string>
     <string name="action_added_keyword">Keyword added to block list</string>
+    <string name="action_block_override">Block even if it\'s a payment / allowed message (override)</string>
+    <string name="action_added_override">Added to override block list</string>
     <string name="action_ignore_app">Ignore this app (stop logging it)</string>
     <string name="action_close">Close</string>
     <string name="action_added_channel">Channel added to block list</string>
@@ -55,6 +57,7 @@
     <string name="keywords_help">One entry per line, lower-cased automatically. ALLOW is checked first and always wins — a match there is never cancelled. BLOCK keywords match anywhere in the text. Channel IDs match exactly against the notification\'s channelId (populate these once you\'ve seen real IDs in the log).</string>
     <string name="allow_header">ALLOW keywords (always keep)</string>
     <string name="block_header">BLOCK keywords (cancel in enforce mode)</string>
+    <string name="force_header">OVERRIDE block (cancel even if ALLOW matches — beats the payment/OTP safety net)</string>
     <string name="channels_header">BLOCK channel IDs (substring match)</string>
     <string name="ignore_header">IGNORE packages (never logged or touched — one package prefix per line, e.g. com.whatsapp)</string>
     <string name="reset_defaults">Reset to defaults</string>

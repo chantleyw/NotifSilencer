@@ -60,26 +60,35 @@ class NotifSilencerService : NotificationListenerService() {
         val block = Prefs.blockList(this)
         val blockChannels = Prefs.blockChannels(this)
         val blockPackages = Prefs.blockPackages(this)
+        val forceBlock = Prefs.forceBlockList(this)
         val logOnly = Prefs.isLogOnly(this)
 
-        // 1. ALLOW wins outright — never cancel a payment/billing notification.
-        val allowHit = allow.firstOrNull { it.isNotEmpty() && matchText.contains(it) }
-        if (allowHit != null) {
-            record(pkg, channel, haystack, killed = false, reason = "allow:$allowHit", logOnly)
-            return
+        // 1. FORCE-BLOCK overrides everything, including ALLOW — for wanted-looking
+        // messages that aren't yours (e.g. a payment SMS for the number's old owner).
+        val forceHit = forceBlock.firstOrNull { it.isNotEmpty() && matchText.contains(it) }
+
+        // 2. ALLOW wins next — never cancel a payment/billing notification — UNLESS a
+        // force-block phrase matched above.
+        if (forceHit == null) {
+            val allowHit = allow.firstOrNull { it.isNotEmpty() && matchText.contains(it) }
+            if (allowHit != null) {
+                record(pkg, channel, haystack, killed = false, reason = "allow:$allowHit", logOnly)
+                return
+            }
         }
 
-        // 2. Package-based block — cancel everything from this app (ALLOW already ran).
+        // 3. Package-based block — cancel everything from this app.
         val pkgHit = blockPackages.firstOrNull { it.isNotEmpty() && pkg.startsWith(it) }
-        // 3. Channel-based block. Substring match, because channel ids often carry
+        // 4. Channel-based block. Substring match, because channel ids often carry
         // a variable per-notification suffix (e.g. "...RECOMMEND.03pnc").
         val channelHit = blockChannels.firstOrNull {
             it.isNotEmpty() && channel.lowercase().contains(it)
         }
-        // 4. Keyword-based block (text + channel id).
+        // 5. Keyword-based block (text + channel id).
         val blockHit = block.firstOrNull { it.isNotEmpty() && matchText.contains(it) }
 
         val reason = when {
+            forceHit != null -> "force-block:$forceHit"
             pkgHit != null -> "block-pkg:$pkgHit"
             channelHit != null -> "block-channel:$channelHit"
             blockHit != null -> "block:$blockHit"
