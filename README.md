@@ -94,6 +94,9 @@ In **log-only mode**, steps 3–4 log the decision as `WOULD-KILL` but don't can
 
 ### One-time permission setup (on the phone)
 
+> ⚠️ **Honor / Huawei / Xiaomi (and some others): unrestrict the app first.**
+> Some phones automatically **restrict** a sideloaded app the moment it's installed, which silently blocks it from working — you may even find you can't grant notification access until you lift the restriction. Before the steps below, go to **Settings → Apps → NotifSilencer** and make sure it is **not restricted** (look for a "Restricted"/"Restrict app activity" setting, or an app-info banner saying the app is restricted, and turn it off / choose "Don't restrict"). Then continue.
+
 The app's buttons take you to each screen:
 
 1. **Open notification access settings** → enable **NotifSilencer**. This is the essential permission — nothing works without it. The status line at the top shows GRANTED / NOT granted.
