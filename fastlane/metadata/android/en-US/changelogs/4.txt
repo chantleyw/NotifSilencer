@@ -1,0 +1,6 @@
+v1.3 — fresh look
+
+- New app icon: an eclipse (teal crescent + glowing orb) symbolising notifications quietly obscured, not removed.
+- New dark theme: midnight-navy background, charcoal surfaces, electric-teal accents, white text.
+- Log verdict colours brightened for the dark background.
+- Matching crescent status-bar icon for the background service.
