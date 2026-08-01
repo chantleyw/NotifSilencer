@@ -2,10 +2,11 @@
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
-    android:viewportHeight="24"
-    android:tint="#FFFFFF">
-    <!-- Crescent (eclipse) silhouette for the status-bar / keep-alive notification. -->
+    android:viewportHeight="24">
+    <!-- Crescent (eclipse) silhouette: outer circle minus an offset inner circle.
+         Status-bar icons use only the alpha, so a solid white crescent is drawn. -->
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="M12,2 A10,10 0 1,0 12,22 A8,8 0 1,1 12,2 Z" />
+        android:fillType="evenOdd"
+        android:pathData="M12,2 a10,10 0 1,0 0,20 a10,10 0 1,0 0,-20 Z M15,4 a8,8 0 1,0 0,16 a8,8 0 1,0 0,-16 Z" />
 </vector>
