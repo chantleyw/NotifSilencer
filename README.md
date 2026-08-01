@@ -22,6 +22,16 @@ NotifSilencer is a lightweight, open-source notification filter for Android. It 
 
 ---
 
+## The icon
+
+<img src="docs/icon.png" width="120" align="left" alt="NotifSilencer icon — a teal eclipse with a glowing orb" hspace="16" />
+
+The NotifSilencer icon is inspired by a **solar eclipse**, symbolizing notifications being quietly obscured rather than removed. Just as the moon temporarily covers the sun, the app intelligently hides or silences selected notifications without interfering with the apps themselves. The glowing orb represents an incoming notification, while the eclipse signifies calm, focus, and control over digital distractions. The dark navy background and teal glow reinforce a modern, premium aesthetic while emphasizing clarity, productivity, and peace of mind.
+
+<br clear="left" />
+
+---
+
 ## The problem it solves
 
 Some phones — Honor and Huawei especially — push "Recommendations" spam through a **system push agent** (`com.hihonor.android.pushagent`) that you **cannot disable** in notification settings. The word that identifies them isn't even in the visible text; it's hidden in the notification's *channel ID* (`…RECOMMEND…`), with a rotating suffix. That's why:

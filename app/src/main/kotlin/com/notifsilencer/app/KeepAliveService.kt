@@ -49,7 +49,7 @@ class KeepAliveService : Service() {
             PendingIntent.FLAG_IMMUTABLE
         )
         return Notification.Builder(this, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(getString(R.string.keepalive_title))
             .setContentText(getString(R.string.keepalive_text))
             .setContentIntent(tap)
