@@ -18,9 +18,10 @@ object LogRender {
 
     private val timeFmt = SimpleDateFormat("MM-dd HH:mm:ss", Locale.US)
 
-    private const val GREEN = 0xFF2E7D32.toInt()   // KEPT
-    private const val RED = 0xFFC62828.toInt()      // KILLED
-    private const val ORANGE = 0xFFEF6C00.toInt()   // WOULD-KILL (log-only)
+    // Brightened for legibility on the dark navy background.
+    private const val GREEN = 0xFF34D399.toInt()   // KEPT
+    private const val RED = 0xFFFF5C5C.toInt()      // KILLED
+    private const val ORANGE = 0xFFFBBF24.toInt()   // WOULD-KILL (log-only)
 
     /** One entry, coloured verdict token, no trailing blank line. */
     fun formatEntry(e: LogStore.Entry): CharSequence {

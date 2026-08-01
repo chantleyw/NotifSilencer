@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Plain platform theme; no AppCompat / Material dependency. -->
-    <style name="Theme.NotifSilencer" parent="@android:style/Theme.Material.Light" />
+    <!-- Dark brand theme: midnight navy background, charcoal surfaces,
+         electric-teal accent, white text. No AppCompat / Material dependency. -->
+    <style name="Theme.NotifSilencer" parent="@android:style/Theme.Material">
+        <item name="android:windowBackground">@color/midnight_navy</item>
+        <item name="android:colorBackground">@color/midnight_navy</item>
+        <item name="android:colorPrimary">@color/charcoal</item>
+        <item name="android:colorPrimaryDark">@color/midnight_navy</item>
+        <item name="android:colorAccent">@color/electric_teal</item>
+        <item name="android:colorButtonNormal">@color/charcoal</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/cyan</item>
+        <item name="android:textColorHint">@color/hint_grey</item>
+    </style>
 </resources>
